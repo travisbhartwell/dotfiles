@@ -1,0 +1,119 @@
+# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+# ------------------------------------------------------------------------------
+# .zshrc
+#
+# .zshrc is sourced after .zshenv and .zprofile for login and interactive shells
+
+# ------------------------------------------------------------------------------
+# General sourcing support
+
+# _tbh_source_if_exists
+#   Source the specified file if it exists
+ _tbh_source_if_exists() {
+     local -r full_path=$1
+
+     if [[ -e "${full_path}" ]]; then
+         source "${full_path}"
+         return 0
+     else
+         return 1
+     fi
+ }
+
+
+# ------------------------------------------------------------------------------
+# Plugin Loading Support
+
+# _tbh_load_zsh_plugin_if_exists
+#   Loads the specified Zsh plugin if it exists in ${ZDOTDIR}/plugins
+_tbh_load_zsh_plugin_if_exists() {
+    local -r plugin_name=$1
+    local -r plugin_base_dir="${ZDOTDIR}/plugins"
+
+    local plugin_file
+
+    for plugin_file in "${plugin_name}/${plugin_name}.plugin.zsh" \
+        "${plugin_name}/${plugin_name}.plugin.zsh"; do
+        local full_plugin_path="${plugin_base_dir}/${plugin_file}"
+
+        if _tbh_source_if_exists "${full_plugin_path}"; then
+            break
+        fi
+    done
+}
+
+# ------------------------------------------------------------------------------
+# History Configuration
+HISTFILE="${_TBH_ZSH_CACHE_DIR}/zsh_history"
+typeset -gxi HISTSIZE=1000000
+typeset -gxi SAVEHIST=1000000
+
+# Add timestamp to each history item
+setopt EXTENDED_HISTORY
+
+# Settings to ensure no duplicate commands are in the history file
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+# Performs history expansin and reloads the line into the editing buffer
+setopt HIST_VERIFY
+# Reads and writes the history file on each command --
+# enables history sharing across Zsh sessions.
+setopt SHARE_HISTORY
+
+# ------------------------------------------------------------------------------
+# Editing / Keybinds Configuration
+
+# ------------------------------------------------------------------------------
+# Completion Configuration
+_tbh_add_completion_dir_to_path_if_exists() {
+    local -r dir=$1
+
+    if [[ -d "${dir}" ]]; then
+        fpath+=("$dir")
+    fi
+}
+
+# Export the fpath array and its mirror FPATH string; including setting unique for
+# the fpath array, which keeps just the first occurance of a directory in the
+# array.
+typeset -gxU fpath
+typeset -gx FPATH
+
+_tbh_add_completion_dir_to_path_if_exists "${ZDOTDIR}/completions"
+
+if command -v brew &> /dev/null; then
+   _tbh_add_completion_dir_to_path_if_exists "$(brew --prefix)/share/zsh/site-functions"
+fi
+
+autoload -Uz compinit
+compinit
+
+# ------------------------------------------------------------------------------
+# AutoSuggestions Plugin
+# https://github.com/zsh-users/zsh-autosuggestions
+_tbh_load_zsh_plugin_if_exists zsh-autosuggestions
+
+# ------------------------------------------------------------------------------
+# direnv support
+if command -v direnv &>/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+# ------------------------------------------------------------------------------
+# asdf support
+if command -v asdf &>/dev/null; then
+    _tbh_source_if_exists "$(brew --prefix asdf)/libexec/asdf.sh" || true
+fi
+
+# ------------------------------------------------------------------------------
+# Starship Prompt support
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# ------------------------------------------------------------------------------
+# Fast Syntax Highlighting Plugin
+#
+# https://github.com/zdharma-continuum/fast-syntax-highlighting
+_tbh_load_zsh_plugin_if_exists fast-syntax-highlighting

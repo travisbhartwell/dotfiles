@@ -1,0 +1,19 @@
+# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+# ------------------------------------------------------------------------------
+# .zshenv
+#
+# .zshenv is evaluated for all Zsh invocations, including scripts and
+# non-interactive shells. So I only include in here envrionment variables
+# that need to be always set.
+
+# ------------------------------------------------------------------------------
+# Zsh Common Settings
+
+# ZDOTDIR
+#   The directory where Zsh looks for its configuration files. Setting this so
+#   the rest of the Zsh configuration are in a directory other than $HOME.
+#
+#   Right now I'm only using my config on mac OS, so use the normal directory
+#   for configuraiton files on that platform.
+typeset -rgx ZDOTDIR="${HOME}/Library/Application Support/zsh"

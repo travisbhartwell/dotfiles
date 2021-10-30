@@ -1,0 +1,60 @@
+# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+# ------------------------------------------------------------------------------
+# .zprofile
+#
+# .zprofile is sourced after .zshenv for all login and interactive shells.
+
+# ------------------------------------------------------------------------------
+# Initialize Homebrew Environment
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# ------------------------------------------------------------------------------
+# PATH settings
+
+# _tbh_prepend_dir_to_path
+#   Add the given directory, if it exists, to the beginning of the path
+_tbh_prepend_dir_to_path() {
+    local -r dir=$1
+
+    if [[ -d "${dir}" ]]; then
+        path=("$dir" $path)
+    fi
+}
+
+# _tbh_append_dir_to_path
+#   Add the given directory, if it exists, to the end of the path
+_tbh_append_dir_to_path() {
+    local -r dir=$1
+
+    if [[ -d "${dir}" ]]; then
+        path+=("$dir")
+    fi
+}
+
+# Export the path array and its mirror PATH string; including setting unique for
+# the path array, which keeps just the first occurance of a directory in the
+# array.
+typeset -gxU path
+typeset -gx PATH
+
+# Rust / Cargo Support
+_tbh_prepend_dir_to_path "${HOME}/.cargo/bin"
+# GHC Up / GHC Haskell Support
+_tbh_prepend_dir_to_path "${HOME}/.ghcup/bin"
+_tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
+
+# This is called last to ensure it is first
+_tbh_prepend_dir_to_path "${HOME}/bin"
+
+# ------------------------------------------------------------------------------
+# Common settings
+
+# Enable color in mac OS ls(1) listings
+typeset -rgxi CLICOLOR=1
+
+# Set and create a common cache directory for Zsh related cache files
+typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/Library/Caches/zsh"
+mkdir -p "${_TBH_ZSH_CACHE_DIR}"
