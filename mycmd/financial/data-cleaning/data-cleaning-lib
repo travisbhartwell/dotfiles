@@ -1,0 +1,86 @@
+# -*- mode: sh -*-
+# shellcheck shell=bash
+
+# This file should only be sourced and not executed directly, so exit with error
+# with execution is attempted. Technique borrowed from
+# https://stackoverflow.com/a/28776166
+(return 0 >/dev/null 2>&1) || {
+	echo >&2 "$0 is a library only meant to be sourced."
+	exit 1
+}
+
+# This library should only be sourced once. Technique borrowed from
+# https://stackoverflow.com/a/64534652
+[ -n "${_MYCMD_FINANCIAL_DATA_CLEANING_LIB:-}" ] && return; readonly _MYCMD_FINANCIAL_DATA_CLEANING_LIB=1
+
+mycmd.defer_at_startup mycmd.init_bin cleancapitalone
+function data_cleaning.clean_capitalone_money_market_csv() {
+    local date="$1"
+
+    local source_file
+    if ! source_file=$(financial.capital_one_money_market_original_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Cannot find original CSV for Capital One Money Market for date ${date}."
+    fi
+    readonly source_file
+
+    local destination_file
+    if ! destination_file=$(allow_missing_file=true financial.capital_one_money_market_cleaned_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Error getting claened file name for Capital One Money Market for date ${date}."
+    fi
+    readonly destination_file
+
+    mycmd.trace "Cleaning Capital One Money Market CSV for date '${date}':\
+        Source File: ${source_file}\
+        Destination File: ${destination_file}."
+
+    "${MYCMD_BIN[cleancapitalone]}" "${source_file}" "${destination_file}"
+}
+
+mycmd.defer_at_startup mycmd.init_bin cleancapitalone
+function data_cleaning.clean_capitalone_checking_csv() {
+    local date="$1"
+
+    local source_file
+    if ! source_file=$(financial.capital_one_checking_original_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Cannot find original CSV for Capital One Checking for date ${date}."
+    fi
+    readonly source_file
+
+    local destination_file
+    if ! destination_file=$(allow_missing_file=true financial.capital_one_checking_cleaned_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Error getting claened file name for Capital One Checking for date ${date}."
+    fi
+    readonly destination_file
+
+    mycmd.trace "Cleaning Capital One Checking CSV for date '${date}':\
+        Source File: ${source_file}\
+        Destination File: ${destination_file}."
+
+    "${MYCMD_BIN[cleancapitalone]}" "${source_file}" "${destination_file}"
+}
+
+mycmd.defer_at_startup mycmd.init_bin cleanchase
+function data_cleaning.clean_chase_visa_csv() {
+    local date="$1"
+    IFS="-" read year _month _day <<< "${date}"
+
+    local source_file
+    if ! source_file=$(financial.chase_visa_original_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Cannot find original CSV for Chase Visa for date ${date}."
+    fi
+    readonly source_file
+
+    local destination_file
+    if ! destination_file=$(allow_missing_file=true financial.chase_visa_cleaned_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Error getting claened file name for Chase Visa for date ${date}."
+    fi
+    readonly destination_file
+
+    mycmd.trace "Cleaning Chase Visa CSV for date '${date}':\
+        Source File: ${source_file}\
+        Destination File: ${destination_file}."
+
+    "${MYCMD_BIN[cleanchase]}" "${source_file}" "${destination_file}" "${year}"
+}
+
+mycmd.trace "The Financal Data Cleaning library has been sourced."

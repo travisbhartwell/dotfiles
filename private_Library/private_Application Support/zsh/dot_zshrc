@@ -10,17 +10,16 @@
 
 # _tbh_source_if_exists
 #   Source the specified file if it exists
- _tbh_source_if_exists() {
-     local -r full_path=$1
+_tbh_source_if_exists() {
+    local -r full_path=$1
 
-     if [[ -e "${full_path}" ]]; then
-         source "${full_path}"
-         return 0
-     else
-         return 1
-     fi
- }
-
+    if [[ -e "${full_path}" ]]; then
+        source "${full_path}"
+        return 0
+    else
+        return 1
+    fi
+}
 
 # ------------------------------------------------------------------------------
 # Plugin Loading Support
