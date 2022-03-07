@@ -45,6 +45,8 @@ _tbh_prepend_dir_to_path "${HOME}/.cargo/bin"
 # GHC Up / GHC Haskell Support
 _tbh_prepend_dir_to_path "${HOME}/.ghcup/bin"
 _tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
+# Local Directory
+_tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
 # This is called last to ensure it is first
 _tbh_prepend_dir_to_path "${HOME}/bin"

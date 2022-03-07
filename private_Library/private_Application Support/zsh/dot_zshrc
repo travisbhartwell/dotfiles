@@ -64,14 +64,7 @@ setopt SHARE_HISTORY
 # Editing / Keybinds Configuration
 
 # ------------------------------------------------------------------------------
-# Completion Configuration
-_tbh_add_completion_dir_to_path_if_exists() {
-    local -r dir=$1
-
-    if [[ -d "${dir}" ]]; then
-        fpath+=("$dir")
-    fi
-}
+# Function and completion Configuration
 
 # Export the fpath array and its mirror FPATH string; including setting unique for
 # the fpath array, which keeps just the first occurance of a directory in the
@@ -79,10 +72,25 @@ _tbh_add_completion_dir_to_path_if_exists() {
 typeset -gxU fpath
 typeset -gx FPATH
 
-_tbh_add_completion_dir_to_path_if_exists "${ZDOTDIR}/completions"
+_tbh_add_function_dir_to_path_if_exists() {
+    local -r dir=$1
+
+    if [[ -d "${dir}" ]]; then
+        fpath+=("$dir")
+    fi
+}
+
+# Configure Local Functions
+_tbh_local_function_dir="${ZDOTDIR}/functions"
+_tbh_add_function_dir_to_path_if_exists "${_tbh_local_function_dir}"
+autoload -Uz "${_tbh_local_function_dir}"
+unset _tbh_local_function_dir
+
+# Configure Completions
+_tbh_add_function_dir_to_path_if_exists "${ZDOTDIR}/completions"
 
 if command -v brew &> /dev/null; then
-   _tbh_add_completion_dir_to_path_if_exists "$(brew --prefix)/share/zsh/site-functions"
+   _tbh_add_function_dir_to_path_if_exists "$(brew --prefix)/share/zsh/site-functions"
 fi
 
 autoload -Uz compinit
@@ -110,6 +118,11 @@ fi
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
 fi
+
+# ------------------------------------------------------------------------------
+# Enable iTerm shell integration
+# https://iterm2.com/documentation-shell-integration.html
+_tbh_source_if_exists "${ZDOTDIR}/iterm_zsh_integration.sh"
 
 # ------------------------------------------------------------------------------
 # Fast Syntax Highlighting Plugin

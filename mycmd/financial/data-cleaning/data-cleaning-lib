@@ -62,7 +62,7 @@ function data_cleaning.clean_capitalone_checking_csv() {
 mycmd.defer_at_startup mycmd.init_bin cleanchase
 function data_cleaning.clean_chase_visa_csv() {
     local date="$1"
-    IFS="-" read year _month _day <<< "${date}"
+    IFS="-" read year month _day <<< "${date}"
 
     local source_file
     if ! source_file=$(financial.chase_visa_original_csv_by_date "${date}"); then
@@ -80,7 +80,15 @@ function data_cleaning.clean_chase_visa_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    "${MYCMD_BIN[cleanchase]}" "${source_file}" "${destination_file}" "${year}"
+    local is_january
+    if [[ "${month}" = "01" ]]; then
+        is_january="--january-statement"
+    else
+        is_january=""
+    fi
+    readonly is_january
+
+    "${MYCMD_BIN[cleanchase]}" "${source_file}" "${destination_file}" "${year}" "${is_january}"
 }
 
 mycmd.trace "The Financal Data Cleaning library has been sourced."

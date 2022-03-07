@@ -64,6 +64,18 @@
 (setq +format-on-save-enabled-modes
       '(not sh-mode))
 
+;; Borrowed from https://github.com/bkchr/nixos-config/blob/3d4634b093ba40b3a98b450baef42dca885c68ee/home/files/.doom.d/config.el#L107
+(use-package! vertico-posframe
+  :init
+  (setq vertico-posframe-border-width 10)
+  (setq vertico-posframe-parameters
+        '((left-fringe . 8)
+          (right-fringe . 8)))
+  ;; NOTE: this is needed to make sure marginalia columns don't get misaligned
+  (setq marginalia-margin-threshold 250)
+  :config
+  (vertico-posframe-mode 1))
+
 (defconst tbh/mycmd-executable
   (executable-find "mycmd"))
 

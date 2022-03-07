@@ -1,0 +1,15 @@
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+local -r download_dir="${HOME}/Downloads"
+local find_exe
+
+if [[ $(uname -s) == "Darwin" ]]; then
+    find_exe="$(which gfind)"
+else
+    find_exe="$(which find)"
+fi
+
+# Borrowed from https://superuser.com/a/546900/93
+"${find_exe}" ~/Downloads -type f -not -name '.DS_Store' -printf "%T@ %p\n" |
+    sort -n |
+    awk '{ print $2 }'
