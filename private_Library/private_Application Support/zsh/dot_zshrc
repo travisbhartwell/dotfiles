@@ -83,7 +83,7 @@ _tbh_add_function_dir_to_path_if_exists() {
 # Configure Local Functions
 _tbh_local_function_dir="${ZDOTDIR}/functions"
 _tbh_add_function_dir_to_path_if_exists "${_tbh_local_function_dir}"
-autoload -Uz "${_tbh_local_function_dir}"
+autoload -Uz ${_tbh_local_function_dir}/*(.:t)
 unset _tbh_local_function_dir
 
 # Configure Completions

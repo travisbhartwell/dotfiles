@@ -12,4 +12,5 @@ fi
 # Borrowed from https://superuser.com/a/546900/93
 "${find_exe}" ~/Downloads -type f -not -name '.DS_Store' -printf "%T@ %p\n" |
     sort -n |
+    tail -n 1 |
     awk '{ print $2 }'
