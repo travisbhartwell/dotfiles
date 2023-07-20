@@ -1,6 +1,12 @@
 # -*- mode: sh -*-
 # shellcheck shell=bash
 
+# VERSION: 1.0
+
+# HELP START
+# financial account data import tools
+# HELP END
+
 # This file should only be sourced and not executed directly, so exit with error
 # with execution is attempted. Technique borrowed from
 # https://stackoverflow.com/a/28776166

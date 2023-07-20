@@ -20,6 +20,8 @@ fi
 [ -n "${_MYCMD_LOCAL_LIB:-}" ] && return
 readonly _MYCMD_LOCAL_LIB=1
 
+readonly _MYCMD_LOCAL_LIB_SELF_FILE="${BASH_SOURCE[0]}"
+
 # Local definitions for MCYMD_BIN
 function mycmd_local.init_bin() {
     local -r command=$1
@@ -32,14 +34,14 @@ function mycmd_local.init_bin() {
     # local command_path
     case "${command}" in
         "financial-importer")
-            local importer_path="${HOME}/Developer/financial-tools/financial-importer/target/debug/financial-importer"
+            local importer_path="${HOME}/Developer/financial-tools/financial-importer/target/release/financial-importer"
             if [[ -x "${importer_path}" ]]; then
                 MYCMD_BIN[$command]="${importer_path}"
             fi
             ;;
 
         "pricesdb-updater")
-            local updater_path="${HOME}/Developer/financial-tools/pricesdb-updater/target/debug/pricesdb-updater"
+            local updater_path="${HOME}/Developer/financial-tools/pricesdb-updater/target/release/pricesdb-updater"
             if [[ -x "${updater_path}" ]]; then
                 MYCMD_BIN[$command]="${updater_path}"
             fi
@@ -71,3 +73,5 @@ function mycmd_local.init_bin() {
             ;;
     esac
 }
+
+mycmd.trace "${_MYCMD_LOCAL_LIB_SELF_FILE} sourcing complete."
