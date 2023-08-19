@@ -1,4 +1,4 @@
-# -*- mode: sh -*-
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
 # shellcheck shell=bash
 
 # VERSION: 1.0
@@ -7,40 +7,40 @@
 # financial account data import tools
 # HELP END
 
-# This file should only be sourced and not executed directly, so exit with error
-# with execution is attempted. Technique borrowed from
-# https://stackoverflow.com/a/28776166
 (return 0 >/dev/null 2>&1) || {
-	echo >&2 "$0 is a library only meant to be sourced."
-	exit 1
+    echo >&2 "$0 is a library only meant to be sourced."
+    exit 1
 }
 
-# This library should only be sourced once. Technique borrowed from
-# https://stackoverflow.com/a/64534652
-[ -n "${_MYCMD_FINANCIAL_IMPORT_LIB:-}" ] && return; readonly _MYCMD_FINANCIAL_IMPORT_LIB=1
+[[ -n "${_MYCMD_FINANCIAL_IMPORT_LIB:-}" ]] && return
+readonly _MYCMD_FINANCIAL_IMPORT_LIB=1
 
 function import._imports_ledger_postings_file_by_date() {
     local -r account="$1"
     local -r date="$2"
 
+    # shellcheck disable=SC2154
     financial._resolve_file "${FINANCIAL_IMPORTS_BASE_DIR}" "${account}" "${date}-ledger-postings.dat"
 }
 
 function import.capital_one_checking_imports_ledger_postings_file_by_date() {
     local -r date="$1"
 
+    # shellcheck disable=SC2154
     import._imports_ledger_postings_file_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}" "${date}"
 }
 
 function import.capital_one_money_market_imports_ledger_postings_file_by_date() {
     local -r date="$1"
 
+    # shellcheck disable=SC2154
     import._imports_ledger_postings_file_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}" "${date}"
 }
 
 function import.chase_visa_imports_ledger_postings_file_by_date() {
     local -r date="$1"
 
+    # shellcheck disable=SC2154
     import._imports_ledger_postings_file_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}" "${date}"
 }
 
@@ -51,7 +51,7 @@ function import._import_csv() {
     local -r input_file="$2"
     local -r ledger_output_file="$3"
 
-    "${MYCMD_BIN[financial-importer]}" process-csv \
+    mycmd.bin_execute financial-importer process-csv \
         --format-name "${format_name}" \
         --input-file "${input_file}" \
         --ledger-output-file "${ledger_output_file}"
@@ -80,7 +80,6 @@ function import.import_chase_visa_cleaned_by_date() {
     fi
     readonly ledger_output_file
 
-
     import.import_chase_visa "${cleaned_csv_file}" "${ledger_output_file}"
 }
 
@@ -107,7 +106,6 @@ function import.import_capital_one_checking_cleaned_by_date() {
     fi
     readonly ledger_output_file
 
-
     import.import_capital_one_checking "${cleaned_csv_file}" "${ledger_output_file}"
 }
 
@@ -133,7 +131,6 @@ function import.import_capital_one_money_market_cleaned_by_date() {
         mycmd.err_exit 1 "Error getting ledger outputs file name for Capital One Money Market for date ${date}."
     fi
     readonly ledger_output_file
-
 
     import.import_capital_one_money_market "${cleaned_csv_file}" "${ledger_output_file}"
 }

@@ -1,9 +1,6 @@
-# -*- mode: sh -*-
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
 # shellcheck shell=bash
 
-# This file should only be sourced and not executed directly, so exit with error
-# with execution is attempted. Technique borrowed from
-# https://stackoverflow.com/a/28776166
 (return 0 >/dev/null 2>&1) || {
     echo >&2 "$0 is a library only meant to be sourced."
     exit 1
@@ -15,9 +12,7 @@ if [[ -z "${_MYCMD_LIB-}" ]]; then
     exit 1
 fi
 
-# This library should only be sourced once. Technique borrowed from
-# https://stackoverflow.com/a/64534652
-[ -n "${_MYCMD_LOCAL_LIB:-}" ] && return
+[[ -n "${_MYCMD_LOCAL_LIB:-}" ]] && return
 readonly _MYCMD_LOCAL_LIB=1
 
 readonly _MYCMD_LOCAL_LIB_SELF_FILE="${BASH_SOURCE[0]}"
@@ -26,8 +21,8 @@ readonly _MYCMD_LOCAL_LIB_SELF_FILE="${BASH_SOURCE[0]}"
 function mycmd_local.init_bin() {
     local -r command=$1
 
-    [[ -v MYCMD_BIN["$command"] ]] && {
-        mycmd.debug "'${command}' already defined at '${MYCMD_BIN[$command]}'"
+    [[ -v MYCMD_BIN["${command}"] ]] && {
+        mycmd.debug "'${command}' already defined at '${MYCMD_BIN["${command}"]}'"
         return 0
     }
 
@@ -36,28 +31,28 @@ function mycmd_local.init_bin() {
         "financial-importer")
             local importer_path="${HOME}/Developer/financial-tools/financial-importer/target/release/financial-importer"
             if [[ -x "${importer_path}" ]]; then
-                MYCMD_BIN[$command]="${importer_path}"
+                MYCMD_BIN["${command}"]="${importer_path}"
             fi
             ;;
 
         "pricesdb-updater")
             local updater_path="${HOME}/Developer/financial-tools/pricesdb-updater/target/release/pricesdb-updater"
             if [[ -x "${updater_path}" ]]; then
-                MYCMD_BIN[$command]="${updater_path}"
+                MYCMD_BIN["${command}"]="${updater_path}"
             fi
             ;;
 
         "cleancapitalone")
             local clean_cap1_path="${HOME}/Developer/financial-tools/data-cleanup/cleancapitalone.py"
             if [[ -x "${clean_cap1_path}" ]]; then
-                MYCMD_BIN[$command]="${clean_cap1_path}"
+                MYCMD_BIN["${command}"]="${clean_cap1_path}"
             fi
             ;;
 
         "cleanchase")
             local clean_chase_path="${HOME}/Developer/financial-tools/data-cleanup/cleanchase.py"
             if [[ -x "${clean_chase_path}" ]]; then
-                MYCMD_BIN[$command]="${clean_chase_path}"
+                MYCMD_BIN["${command}"]="${clean_chase_path}"
             fi
             ;;
 
@@ -66,6 +61,7 @@ function mycmd_local.init_bin() {
             ;;
     esac
 
+    # shellcheck disable=SC2154
     case "${command}+${_MYCMD_OS}" in
         *)
             # Do nothing, the fallback is in `mycmd.init_mycmd_bin`
