@@ -79,12 +79,25 @@
 (defconst tbh/mycmd-executable
   (executable-find "mycmd"))
 
-(defun tbh/mycmd-call (&rest args)
-  (apply #'doom-call-process (cons tbh/mycmd-executable (remq nil args))))
+(defun tbh/mycmd-direct-path (&rest parts)
+  (f-expand (apply #'f-join "~/mycmd" parts)))
+
+;; (defun tbh/mycmd-call (&rest args)
+;;   (apply #'doom-call-process (cons tbh/mycmd-executable (remq nil args))))
+
+(defun tbh/mycmd-call (cmd &rest args)
+  (apply #'doom-call-process (cons cmd (remq nil args))))
+
+;; (defun tbh/get-source-csvs (account)
+;;   (-let*
+;;       (((status . output) (tbh/mycmd-call "financial" "list-source-csvs"))
+;;        (output-lines (-filter (lambda (line) (s-starts-with? account line)) (s-lines output))))
+;;     (-map (lambda (line) (-drop 1 (s-split " " line))) output-lines)))
 
 (defun tbh/get-source-csvs (account)
   (-let*
-      (((status . output) (tbh/mycmd-call "financial" "list-source-csvs"))
+      ((list-csvs-cmd (tbh/mycmd-direct-path "financial" "list-source-csvs"))
+       ((status . output) (tbh/mycmd-call list-csvs-cmd))
        (output-lines (-filter (lambda (line) (s-starts-with? account line)) (s-lines output))))
     (-map (lambda (line) (-drop 1 (s-split " " line))) output-lines)))
 
@@ -93,17 +106,32 @@
   (search-forward "; SOURCE")
   (ledger-navigate-beginning-of-xact))
 
+;; (defun tbh/import-csv (account import-command)
+;;   (interactive)
+;;   (-let*
+;;       ((import-date (completing-read "Select date to import: " (tbh/get-source-csvs account) nil t nil nil))
+;;        ((status . output) (tbh/mycmd-call "financial" "import" import-command import-date))
+;;        (generated-file (-second-item (s-match "\\- Wrote .* Ledger entries to file \\(.*\\).$" output))))
+;;     (message "Importing ledger postings from %s." generated-file)
+;;     (goto-char (point-max))
+;;     (newline)
+;;     (insert-file-contents generated-file)
+;;     (+format-buffer-h)
+;;     (goto-char (point-min))
+;;     (tbh/ledger-next-imported-xact)))
+
 (defun tbh/import-csv (account import-command)
   (interactive)
   (-let*
       ((import-date (completing-read "Select date to import: " (tbh/get-source-csvs account) nil t nil nil))
-       ((status . output) (tbh/mycmd-call "financial" "import" import-command import-date))
+       (import-cmd-path (tbh/mycmd-direct-path "financial" "import" import-command))
+       ((status . output) (tbh/mycmd-call import-cmd-path import-date))
        (generated-file (-second-item (s-match "\\- Wrote .* Ledger entries to file \\(.*\\).$" output))))
     (message "Importing ledger postings from %s." generated-file)
     (goto-char (point-max))
     (newline)
     (insert-file-contents generated-file)
-    (+format-buffer-h)
+    (+format/buffer)
     (goto-char (point-min))
     (tbh/ledger-next-imported-xact)))
 
@@ -125,12 +153,8 @@
   (map!
    (:localleader
     :map ledger-mode-map
-     :desc "Next Imported Transaction" "n" #'tbh/ledger-next-imported-xact
+    :desc "Next Imported Transaction" "n" #'tbh/ledger-next-imported-xact
     (:prefix ("i" . "Import CSVs")
      :desc "Capital One Checking" "c" #'tbh/import-capital-one-checking-csv
      :desc "Capital One Money Market" "m" #'tbh/import-capital-one-money-market-csv
      :desc "Chase Visa" "v" #'tbh/import-chase-visa-csv))))
-
-(use-package! justl
-  :config
-  (map! :n "e" 'justl-exec-recipe))

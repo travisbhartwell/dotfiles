@@ -112,9 +112,9 @@ if command -v direnv &>/dev/null; then
 fi
 
 # ------------------------------------------------------------------------------
-# asdf support
-if command -v asdf &>/dev/null; then
-    _tbh_source_if_exists "$(brew --prefix asdf)/libexec/asdf.sh" || true
+# rtx support
+if command -v rtx &>/dev/null; then
+    eval "$(rtx activate zsh)"
 fi
 
 # ------------------------------------------------------------------------------

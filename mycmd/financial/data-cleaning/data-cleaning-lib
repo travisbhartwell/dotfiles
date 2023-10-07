@@ -9,7 +9,9 @@
 [[ -n "${_MYCMD_FINANCIAL_DATA_CLEANING_LIB:-}" ]] && return
 readonly _MYCMD_FINANCIAL_DATA_CLEANING_LIB=1
 
-mycmd.defer_at_startup mycmd.init_bin cleancapitalone
+# Common tool required for everything in this module
+mycmd.defer_at_startup mycmd.init_bin datacleanup
+
 function data_cleaning.clean_capitalone_money_market_csv() {
     local date="$1"
 
@@ -29,10 +31,9 @@ function data_cleaning.clean_capitalone_money_market_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    mycmd.bin_execute cleancapitalone "${source_file}" "${destination_file}"
+    mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
 }
 
-mycmd.defer_at_startup mycmd.init_bin cleancapitalone
 function data_cleaning.clean_capitalone_checking_csv() {
     local date="$1"
 
@@ -52,10 +53,9 @@ function data_cleaning.clean_capitalone_checking_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    mycmd.bin_execute cleancapitalone "${source_file}" "${destination_file}"
+    mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
 }
 
-mycmd.defer_at_startup mycmd.init_bin cleanchase
 function data_cleaning.clean_chase_visa_csv() {
     local date="$1"
     IFS="-" read -r year month _day <<<"${date}"
@@ -76,15 +76,11 @@ function data_cleaning.clean_chase_visa_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    local is_january
     if [[ "${month}" = "01" ]]; then
-        is_january="--january-statement"
+        mycmd.bin_execute datacleanup chase-visa --input-file-path "${source_file}" --output-file-path "${destination_file}" --year "${year}" "--january-statement"
     else
-        is_january=""
+        mycmd.bin_execute datacleanup chase-visa --input-file-path "${source_file}" --output-file-path "${destination_file}" --year "${year}"
     fi
-    readonly is_january
-
-    mycmd.bin_execute cleanchase "${source_file}" "${destination_file}" "${year}" "${is_january}"
 }
 
 mycmd.trace "The Financal Data Cleaning library has been sourced."

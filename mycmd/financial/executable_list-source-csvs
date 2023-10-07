@@ -12,6 +12,7 @@
 set -o nounset -o errexit -o errtrace -o pipefail
 
 function mycmd.main() {
+
     if (($# < 1)); then
         mycmd.trace "Listing all CSVs"
 
