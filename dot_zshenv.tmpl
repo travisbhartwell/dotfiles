@@ -13,7 +13,8 @@
 # ZDOTDIR
 #   The directory where Zsh looks for its configuration files. Setting this so
 #   the rest of the Zsh configuration are in a directory other than $HOME.
-#
-#   Right now I'm only using my config on mac OS, so use the normal directory
-#   for configuraiton files on that platform.
+{{ if eq .chezmoi.os "darwin" -}}
 typeset -rgx ZDOTDIR="${HOME}/Library/Application Support/zsh"
+{{ else -}}
+typeset -rgx ZDOTDIR="${HOME}/.config/zsh"
+{{ end -}}

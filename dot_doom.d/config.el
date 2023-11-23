@@ -22,7 +22,7 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(setq doom-font (font-spec :family "Source Code Pro" :size 12))
+(setq doom-font (font-spec :family "SauceCodePro NF" :size 12))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -55,26 +55,10 @@
 ;; they are implemented.
 (setq ledger-post-amount-alignment-column 68)
 
-(use-package! nasm-mode
-  :defer t
-  :mode "\\.asm\\'")
-
 (setq ispell-dictionary "en")
 
 (setq +format-on-save-enabled-modes
       '(not sh-mode))
-
-;; Borrowed from https://github.com/bkchr/nixos-config/blob/3d4634b093ba40b3a98b450baef42dca885c68ee/home/files/.doom.d/config.el#L107
-(use-package! vertico-posframe
-  :init
-  (setq vertico-posframe-border-width 10)
-  (setq vertico-posframe-parameters
-        '((left-fringe . 8)
-          (right-fringe . 8)))
-  ;; NOTE: this is needed to make sure marginalia columns don't get misaligned
-  (setq marginalia-margin-threshold 250)
-  :config
-  (vertico-posframe-mode 1))
 
 (defconst tbh/mycmd-executable
   (executable-find "mycmd"))

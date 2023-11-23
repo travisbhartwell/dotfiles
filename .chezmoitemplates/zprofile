@@ -48,6 +48,15 @@ _tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
 # Local Directory
 _tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
+# Set Up MyCmd
+_TBH_MYCMD_DIR="${HOME}/Developer/mycmd"
+_TBH_MYCMD_BIN="${_TBH_MYCMD_DIR}/bin"
+
+typeset -rgx MYCMD_SYSTEM_BASE_DIR="${_TBH_MYCMD_DIR}/mycmd"
+_tbh_prepend_dir_to_path "${_TBH_MYCMD_BIN}"
+unset _TBH_MYCMD_DIR
+unset _TBH_MYCMD_BIN
+
 # This is called last to ensure it is first
 _tbh_prepend_dir_to_path "${HOME}/bin"
 
@@ -58,5 +67,10 @@ _tbh_prepend_dir_to_path "${HOME}/bin"
 typeset -rgxi CLICOLOR=1
 
 # Set and create a common cache directory for Zsh related cache files
+{{ if eq .chezmoi.os "darwin" -}}
 typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/Library/Caches/zsh"
+{{ else }}
+typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/.cache/zsh"
+{{ end -}}
 mkdir -p "${_TBH_ZSH_CACHE_DIR}"
+

@@ -2,3 +2,9 @@ LICENSE
 README.md
 project.sh
 .shellcheckrc
+{{ if ne .chezmoi.os "darwin" }}
+Library
+{{ end }}
+{{ if ne .chezmoi.os "linux" }}
+.config/zsh
+{{ end  }}
