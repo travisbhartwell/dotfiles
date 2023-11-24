@@ -41,10 +41,10 @@
 ;; (package! builtin-package :pin "1a2b3c4d5e")
 
 (package! lsp-treemacs)
-(package! nasm-mode)
 (package! f)
 (package! modus-themes)
-(package! vertico-posframe)
+
+(package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
