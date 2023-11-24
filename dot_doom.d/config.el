@@ -21,10 +21,9 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font
-      (seq-find #'doom-font-exists-p
-                [(font-spec :family "Monaspace Krypton" :size 12)
-                 (font-spec :family "SauceCodePro NF" :size 12)]))
+(let ((tbh-font-family
+       (seq-find #'doom-font-exists-p ["Monaspace Krypton" "SauceCodePro NF"])))
+  (setq doom-font (font-spec :family tbh-font-family :size 12)))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
