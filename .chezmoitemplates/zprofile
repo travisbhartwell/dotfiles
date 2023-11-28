@@ -49,7 +49,12 @@ _tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
 _tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
 # Set Up MyCmd
-_TBH_MYCMD_DIR="${HOME}/Developer/mycmd"
+if [[ -d "${HOME}/Developer/mycmd-rewrite" ]]; then
+    _TBH_MYCMD_DIR="${HOME}/Developer/mycmd-rewrite"
+else
+    _TBH_MYCMD_DIR="${HOME}/Developer/mycmd"
+fi
+
 _TBH_MYCMD_BIN="${_TBH_MYCMD_DIR}/bin"
 
 typeset -rgx MYCMD_SYSTEM_BASE_DIR="${_TBH_MYCMD_DIR}/mycmd"

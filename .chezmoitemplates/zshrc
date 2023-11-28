@@ -96,6 +96,15 @@ fi
 autoload -Uz compinit
 compinit
 
+# Automatically rehash
+zstyle ':completion:*' rehash true
+
+# Cache completions
+if [[ -v _TBH_ZSH_CACHE_DIR ]]; then
+    zstyle ':completion:*' use-cache on
+    zstyle ':completion:*' cache-path "${_TBH_ZSH_CACHE_DIR}"
+fi
+
 # ------------------------------------------------------------------------------
 # AutoSuggestions Plugin
 # https://github.com/zsh-users/zsh-autosuggestions
@@ -133,3 +142,9 @@ _tbh_source_if_exists "${ZDOTDIR}/iterm_zsh_integration.sh"
 #
 # https://github.com/zdharma-continuum/fast-syntax-highlighting
 _tbh_load_zsh_plugin_if_exists fast-syntax-highlighting
+
+# ------------------------------------------------------------------------------
+# Zsh Vi Mode Plugin
+#
+# https://github.com/jeffreytse/zsh-vi-mode
+_tbh_load_zsh_plugin_if_exists zsh-vi-mode
