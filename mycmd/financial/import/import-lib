@@ -1,16 +1,15 @@
 # -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
 # shellcheck shell=bash
 
-# VERSION: 1.0
-
-# HELP START
-# financial account data import tools
-# HELP END
-
 (return 0 >/dev/null 2>&1) || {
     echo >&2 "$0 is a library only meant to be sourced."
     exit 1
 }
+
+mycmd.register_command_group_version "1.0"
+mycmd.register_command_group_short_desc "financial account data import tools"
+
+[[ -n "${_MYCMD_SOURCING_COMMAND_GROUP_FOR_HELP:-}" ]] && return
 
 [[ -n "${_MYCMD_FINANCIAL_IMPORT_LIB:-}" ]] && return
 readonly _MYCMD_FINANCIAL_IMPORT_LIB=1
