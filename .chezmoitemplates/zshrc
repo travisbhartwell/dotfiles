@@ -121,9 +121,9 @@ if command -v direnv &>/dev/null; then
 fi
 
 # ------------------------------------------------------------------------------
-# rtx support
-if command -v rtx &>/dev/null; then
-    eval "$(rtx activate zsh)"
+# mise support
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
 fi
 
 # ------------------------------------------------------------------------------

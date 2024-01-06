@@ -71,6 +71,9 @@ _tbh_prepend_dir_to_path "${HOME}/bin"
 # Enable color in mac OS ls(1) listings
 typeset -rgxi CLICOLOR=1
 
+# Common less options
+typeset -rgx LESS="-iFXR"
+
 # Set and create a common cache directory for Zsh related cache files
 {{ if eq .chezmoi.os "darwin" -}}
 typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/Library/Caches/zsh"
