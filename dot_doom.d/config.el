@@ -209,3 +209,7 @@
      (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
   (setq codeium/document/text 'my-codeium/document/text)
   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+
+;; Allows for editing files for use with https://github.com/booniepepper/dsg-md-posix/
+(add-to-list 'auto-mode-alist '("\\.md\\.part\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\.template\\'" . html-mode))

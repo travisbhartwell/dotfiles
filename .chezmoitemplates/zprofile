@@ -49,10 +49,12 @@ _tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
 _tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
 # Set Up MyCmd
-if [[ -d "${HOME}/Developer/mycmd-rewrite" ]]; then
-    _TBH_MYCMD_DIR="${HOME}/Developer/mycmd-rewrite"
-else
+if [[ -d "${HOME}/Developer/mycmd/snapshot" ]]; then
+    _TBH_MYCMD_DIR="${HOME}/Developer/mycmd/snapshot"
+elif [[ -d "${HOME}/Developer/mycmd/main" ]]; then
     _TBH_MYCMD_DIR="${HOME}/Developer/mycmd"
+else
+    echo >&2 "Cannot find MyCmd checkout."
 fi
 
 _TBH_MYCMD_BIN="${_TBH_MYCMD_DIR}/bin"
@@ -81,4 +83,3 @@ typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/Library/Caches/zsh"
 typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/.cache/zsh"
 {{ end -}}
 mkdir -p "${_TBH_ZSH_CACHE_DIR}"
-
