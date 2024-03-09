@@ -86,6 +86,12 @@ _tbh_add_function_dir_to_path_if_exists "${_tbh_local_function_dir}"
 autoload -Uz ${_tbh_local_function_dir}/*(.:t)
 unset _tbh_local_function_dir
 
+# ------------------------------------------------------------------------------
+# Nix Zsh Completions
+# https://github.com/nix-community/nix-zsh-completions
+_tbh_load_zsh_plugin_if_exists nix-zsh-completions
+_tbh_add_function_dir_to_path_if_exists "${ZDOTDIR}/plugins/nix-zsh-completions"
+
 # Configure Completions
 _tbh_add_function_dir_to_path_if_exists "${ZDOTDIR}/completions"
 

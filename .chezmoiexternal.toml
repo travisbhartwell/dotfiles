@@ -20,6 +20,13 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+["Library/Application Support/zsh/plugins/nix-zsh-completions"]
+    type = "archive"
+    url = "https://github.com/nix-community/nix-zsh-completions/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
 ["Library/Application Support/zsh/iterm_zsh_integration.sh"]
     type = "file"
     url = "https://iterm2.com/shell_integration/zsh"
@@ -54,6 +61,13 @@
 [".config/zsh/plugins/zsh-vi-mode"]
     type = "archive"
     url = "https://github.com/jeffreytse/zsh-vi-mode/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".config/zsh/plugins/nix-zsh-completions"]
+    type = "archive"
+    url = "https://github.com/nix-community/nix-zsh-completions/archive/master.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
