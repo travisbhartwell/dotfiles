@@ -48,6 +48,7 @@ _tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
 # Local Directory
 _tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
+# ------------------------------------------------------------------------------
 # Set Up MyCmd
 if [[ -d "${HOME}/Developer/mycmd/snapshot" ]]; then
     _TBH_MYCMD_DIR="${HOME}/Developer/mycmd/snapshot"
@@ -66,6 +67,18 @@ unset _TBH_MYCMD_BIN
 
 # This is called last to ensure it is first
 _tbh_prepend_dir_to_path "${HOME}/bin"
+
+# ------------------------------------------------------------------------------
+# direnv support
+if command -v direnv &>/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+# ------------------------------------------------------------------------------
+# mise support
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh --shims)"
+fi
 
 # ------------------------------------------------------------------------------
 # Common settings
