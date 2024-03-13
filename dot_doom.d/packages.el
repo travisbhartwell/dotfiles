@@ -5,4 +5,3 @@
 (package! s)
 (package! ef-themes)
 (package! auto-dim-other-buffers)
-

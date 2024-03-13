@@ -1,0 +1,1 @@
+This module was copied from [[https://github.com/sakakibara/dotfiles/tree/4a39d8dd8f6e88c35aa88aef6ba1e804a6ad6098/dot_config/doom/modules/tools/chezmoi][sakakibara/dotfiles]], then updated for my purposes.

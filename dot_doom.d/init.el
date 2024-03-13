@@ -190,6 +190,7 @@
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :tbh
+       chezmoi
        notes
 
        :config

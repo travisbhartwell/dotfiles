@@ -2,6 +2,7 @@ LICENSE
 README.md
 myproject
 .shellcheckrc
+bootstrap
 {{ if ne .chezmoi.os "darwin" }}
 Library
 {{ end }}

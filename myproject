@@ -8,15 +8,18 @@ project.load_task_library "shell"
 
 # shellcheck disable=SC2154
 readonly MYCMD_DIR="${MYPROJECT_BASE_DIR}/mycmd"
+# shellcheck disable=SC2154
+readonly BOOTSTRAP_DIR="${MYPROJECT_BASE_DIR}/bootstrap"
 
 project.register_fileset ALL_BASH_SCRIPTS
 project.find_files_for_fileset ALL_BASH_SCRIPTS "${MYCMD_DIR}" -type f
+project.find_files_for_fileset ALL_BASH_SCRIPTS "${BOOTSTRAP_DIR}" -type f
 # shellcheck disable=SC2154
 project.add_files_to_fileset ALL_BASH_SCRIPTS "${MYPROJECT_PROJECT_FILE}"
 
 project.register_task_with_fileset list-all-bash-scripts project.list-files ALL_BASH_SCRIPTS
-project.register_task_with_fileset format-all-bash-scripts project_shell.format ALL_BASH_SCRIPTS
-project.register_task_with_fileset lint-all-bash-scripts project_shell.lint ALL_BASH_SCRIPTS
+project.register_task_with_fileset format-all-bash-scripts project:shell.format ALL_BASH_SCRIPTS
+project.register_task_with_fileset lint-all-bash-scripts project:shell.lint ALL_BASH_SCRIPTS
 
 project.register_fileset ALL_COMMAND_GROUPS
 project.find_files_for_fileset ALL_COMMAND_GROUPS "${MYCMD_DIR}" -name "*-lib" -type f
