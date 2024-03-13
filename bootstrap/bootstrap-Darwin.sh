@@ -24,7 +24,7 @@ function generate_key() {
         mkdir -p "${SSH_DIR}"
     fi
 
-    ssh-keygen -t ed25519 -C "nafai@travishartwell.net" -f "${SSH_DIR}"
+    ssh-keygen -t ed25519 -C "nafai@travishartwell.net" -f "${SSH_KEY_FILE}"
 }
 
 function configure_ssh() {

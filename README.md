@@ -9,7 +9,7 @@ This configuration currently supports:
 ## Bootstrapping a New Machine
 
 ``` shell
-bootstrap_script="bootstrap-$(uname -r).sh" &&
+bootstrap_script="bootstrap-$(uname -s).sh" &&
     curl -sSL -O "https://raw.githubusercontent.com/travisbhartwell/dotfiles/main/bootstrap/${bootstrap_script}" &&
     chmod +x "${bootstrap_script}" &&
     ./"${bootstrap_script}" &&
