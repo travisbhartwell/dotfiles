@@ -105,7 +105,7 @@ function initialize_chezmoi() {
         return 1
     fi
 
-    chezmoi init --apply travisbhartwell
+    chezmoi init --ssh --apply travisbhartwell
 }
 
 function main() {
