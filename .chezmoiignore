@@ -5,6 +5,7 @@ myproject
 bootstrap
 {{ if ne .chezmoi.os "darwin" }}
 Library
+.chezmoiscripts/darwin
 {{ end }}
 {{ if ne .chezmoi.os "linux" }}
 .config/zsh

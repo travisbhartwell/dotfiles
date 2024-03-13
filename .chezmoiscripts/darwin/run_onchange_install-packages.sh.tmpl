@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+if ! command -v brew > /dev/null 2>&1; then
+    echo >&2 "Homebrew is missing!"
+    exit 1
+fi
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range .packages.darwin.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.darwin.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.darwin.brews_with_args -}}
+brew {{ .name | quote }}, args: [{{- .args | quoteList | join ", " -}}]
+{{ end -}}
+
+{{ range .packages.darwin.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.darwin.mas -}}
+mas {{ .name | quote }}, id: {{ .id }}
+{{ end -}}
+EOF

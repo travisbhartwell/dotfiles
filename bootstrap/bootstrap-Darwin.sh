@@ -86,8 +86,7 @@ function install_homebrew() {
 function install_packages() {
     # Install the absolute minimum packages needed to bootstrap everything
     echo_msg "Installing minimum packages from Homebrew"
-    brew install gh
-    brew install chezmoi
+    brew install git gh chezmoi
 }
 
 function configure_github() {
