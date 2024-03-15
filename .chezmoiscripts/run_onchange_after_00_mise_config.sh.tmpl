@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+
+# Ensure all needed plugins are installed
+mise plugins install --all --yes
+
+# Then ensure all tools are installed
+# Running this twice because rebar has a dependency on the Erlang
+mise install || mise install

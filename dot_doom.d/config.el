@@ -23,7 +23,8 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (let ((tbh-font-family
        (seq-find #'doom-font-exists-p ["Monaspace Krypton" "SauceCodePro NF"])))
-  (setq doom-font (font-spec :family tbh-font-family :size 12)))
+  ;; TODO: Dynamically set size based on screen resolution
+  (setq doom-font (font-spec :family tbh-font-family :size 16)))
 
 (use-package! ef-themes
   :init

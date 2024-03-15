@@ -1,0 +1,126 @@
+[packages]
+[packages.darwin]
+taps = [
+    "daviderestivo/emacs-head",
+    "homebrew/bundle",
+    "homebrew/cask-fonts",
+    "homebrew/cask-versions",
+    "saulpw/vd",
+]
+brews = [
+    "aspell",
+    "bash",
+    "bash-language-server",
+    "bat",
+    "bat-extras",
+    "chezmoi",
+    "coreutils",
+    "diffoscope",
+    "direnv",
+    "exercism",
+    "eza",
+    "fd",
+    "findutils",
+    "fzf",
+    "gawk",
+    "gh",
+    "git",
+    "go",
+    "go-critic",
+    "golangci-lint",
+    "grep",
+    "gum",
+    "hatch",
+    "hyperfine",
+    "ispell",
+    "jless",
+    "jq",
+    "ledger",
+    "mas",
+    "mise",
+    "moreutils",
+    "pandoc",
+    "pipx",
+    "poetry",
+    "qemu",
+    "ripgrep",
+    "rustup-init",
+    "saulpw/vd/visidata",
+    "shellcheck",
+    "shfmt",
+    "starship",
+    "symlinks",
+    "tmux",
+    "tree-sitter",
+    "xsv",
+    "yj",
+    "zellij",
+]
+casks = [
+    "cleanmymac",
+    "discord",
+    "epic-games",
+    "font-commit-mono",
+    "font-monaspace",
+    "font-monaspace-nerd-font",
+    "font-sauce-code-pro-nerd-font",
+    "font-source-code-pro",
+    "font-symbols-only-nerd-font",
+    "iterm2",
+    "jetbrains-toolbox",
+    "karabiner-elements",
+    "keybase",
+    "keyclu",
+    "google-chrome",
+    "google-drive",
+    "raycast",
+    "signal",
+    "steam",
+    "tabula",
+    "visual-studio-code-insiders",
+    "vivaldi",
+    "webcatalog",
+]
+
+[[packages.darwin.brews_with_args]]
+name = "daviderestivo/emacs-head/emacs-head@29"
+args = [
+    "with-cocoa",
+    "with-imagemagick",
+    "with-modern-icon-bokehlicia-captiva",
+    "with-native-comp",
+    "with-native-full-aot",
+    "with-tree-sitter",
+]
+
+[[packages.darwin.brews_with_args]]
+name = "neovim"
+args = ["HEAD"]
+
+[[packages.darwin.mas]]
+name = "Amphetamine"
+id = 937984704
+
+[[packages.darwin.mas]]
+name = "Bitwarden"
+id = 1352778147
+
+[[packages.darwin.mas]]
+name = "Ice Cubes"
+id = 6444915884
+
+[[packages.darwin.mas]]
+name = "Kindle"
+id = 302584613
+
+[[packages.darwin.mas]]
+name = "Slack"
+id = 803453959
+
+[[packages.darwin.mas]]
+name = "Velja"
+id = 1607635845
+
+[[packages.darwin.mas]]
+name = "Xcode"
+id = 497799835

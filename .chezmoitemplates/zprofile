@@ -50,20 +50,30 @@ _tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
 # ------------------------------------------------------------------------------
 # Set Up MyCmd
-if [[ -d "${HOME}/Developer/mycmd/snapshot" ]]; then
-    _TBH_MYCMD_DIR="${HOME}/Developer/mycmd/snapshot"
-elif [[ -d "${HOME}/Developer/mycmd/main" ]]; then
-    _TBH_MYCMD_DIR="${HOME}/Developer/mycmd"
-else
-    echo >&2 "Cannot find MyCmd checkout."
-fi
+#   In a function to take advantage of locals
+_tbh_set_up_mycmd() {
+    local dir
+    local mycmd_dir
+    local mycmd_bin
 
-_TBH_MYCMD_BIN="${_TBH_MYCMD_DIR}/bin"
+    for dir ( "${HOME}/Developer/Personal/mycmd/snapshot"  "${HOME}/Developer/Personal/mycmd/main" "${HOME}/Developer/mycmd" ); do
+        if [[ -d "${dir}" ]]; then
+            mycmd_dir="${dir}"
+            break
+        fi
+    done
 
-typeset -rgx MYCMD_SYSTEM_BASE_DIR="${_TBH_MYCMD_DIR}/mycmd"
-_tbh_prepend_dir_to_path "${_TBH_MYCMD_BIN}"
-unset _TBH_MYCMD_DIR
-unset _TBH_MYCMD_BIN
+    if [[ -z "${mycmd_dir-}" ]]; then
+        echo >&2 "Cannot find MyCmd checkout."
+        return
+    fi
+
+    mycmd_bin="${mycmd_dir}/bin"
+    typeset -rgx MYCMD_SYSTEM_BASE_DIR="${mycmd_dir}/mycmd"
+    _tbh_prepend_dir_to_path "${mycmd_bin}"
+}
+
+_tbh_set_up_mycmd
 
 # This is called last to ensure it is first
 _tbh_prepend_dir_to_path "${HOME}/bin"

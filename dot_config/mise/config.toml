@@ -1,0 +1,7 @@
+[tools]
+erlang = '26.2'
+gleam = '1.0'
+node = '20'
+python = ['3.12', '3.11']
+pipx = 'latest'
+rebar = '3.22.1'
