@@ -75,6 +75,7 @@ casks = [
     "google-drive",
     "raycast",
     "signal",
+    "spotify",
     "steam",
     "tabula",
     "visual-studio-code-insiders",
