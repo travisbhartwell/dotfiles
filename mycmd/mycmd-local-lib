@@ -26,17 +26,19 @@ function mycmd_local.init_bin() {
         return 0
     }
 
+    local -r cargo_bin="${HOME}/.cargo/bin"
+
     # local command_path
     case "${command}" in
         "financial-importer")
-            local importer_path="${HOME}/Developer/financial-tools/financial-importer/target/release/financial-importer"
+            local importer_path="${cargo_bin}/financial-importer"
             if [[ -x "${importer_path}" ]]; then
                 MYCMD_BIN["${command}"]="${importer_path}"
             fi
             ;;
 
         "pricesdb-updater")
-            local updater_path="${HOME}/Developer/financial-tools/pricesdb-updater/target/release/pricesdb-updater"
+            local updater_path="${cargo_bin}/pricesdb-updater"
             if [[ -x "${updater_path}" ]]; then
                 MYCMD_BIN["${command}"]="${updater_path}"
             fi
