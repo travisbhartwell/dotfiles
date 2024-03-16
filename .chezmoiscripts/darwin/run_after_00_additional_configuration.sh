@@ -15,7 +15,7 @@ function defaults_write_if_needed() {
    local current
    local unset="false"
 
-   if ! current="$(defaults read "${domain}" "${key}")"; then
+   if ! current="$(defaults read "${domain}" "${key}" 2> /dev/null)"; then
        unset="true"
    fi
 
@@ -156,6 +156,29 @@ function setup_misc() {
     defaults_write_if_needed NSGlobalDomain AppleKeyboardUIMode -int 3
 }
 
+# https://azimi.io/how-to-enable-touch-id-for-sudo-on-macbook-pro-46272ac3e2df
+function setup_sudo_touchid() {
+    local -r local_config="/etc/pam.d/sudo_local"
+    local create_needed="true"
+
+    if [[ -e "${local_config}" ]]; then
+        if grep -q "^auth       sufficient     pam_tid.so$" "${local_config}"; then
+            create_needed="false"
+        fi
+    fi
+
+    if [[ "${create_needed}" = "true" ]]; then
+        cat <<EOF | sudo tee /etc/pam.d/sudo_local
+# sudo_local: local config file which survives system update and is included for sudo
+# uncomment following line to enable Touch ID for sudo
+auth       sufficient     pam_tid.so
+EOF
+    fi
+}
+
+
 setup_dock
 setup_finder
 setup_screenshots
+setup_misc
+setup_sudo_touchid
