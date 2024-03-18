@@ -1,0 +1,19 @@
+{{ range .packages.darwin.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.darwin.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.darwin.brews_with_args -}}
+brew {{ .name | quote }}, args: [{{- .args | quoteList | join ", " -}}]
+{{ end -}}
+
+{{ range .packages.darwin.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.darwin.mas -}}
+mas {{ .name | quote }}, id: {{ .id }}
+{{ end -}}
