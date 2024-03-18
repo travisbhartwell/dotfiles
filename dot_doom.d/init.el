@@ -82,6 +82,8 @@
 
        :tbh
        chezmoi
+       finances
+       mycmd
        notes
 
        :config
