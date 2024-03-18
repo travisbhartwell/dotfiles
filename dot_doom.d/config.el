@@ -153,10 +153,6 @@
      :desc "Capital One Money Market" "m" #'tbh/import-capital-one-money-market-csv
      :desc "Chase Visa" "v" #'tbh/import-chase-visa-csv))))
 
-(defun tbh/ediff-init ()
-  (interactive)
-  (ediff (f-expand "~/.emacs.d/templates/init.example.el") (f-expand "~/.local/share/chezmoi/dot_doom.d/init.el")))
-
 ;; Allows for editing files for use with https://github.com/booniepepper/dsg-md-posix/
 (add-to-list 'auto-mode-alist '("\\.md\\.part\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\.template\\'" . html-mode))
@@ -175,3 +171,8 @@
 
 ;; Temporarily allow ~/.authinfo until I get gpg working again
 (pushnew! auth-sources "~/.authinfo")
+
+(defun tbh/ediff-init ()
+  (interactive)
+  (let ((init-template-file (expand-file-name "templates/init.example.el" doom-emacs-dir)))
+    (magit-ediff-compare tbh-last-init-el-template-commit "HEAD" init-template-file init-template-file)))
