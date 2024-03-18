@@ -1,0 +1,18 @@
+# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+local dir
+local doom_dir
+
+for dir ("${HOME}/.config/emacs" "${HOME}/.emacs.d"); do
+    if [[ -d "${dir}" ]] && [[ -x "${dir}/bin/doom" ]]; then
+        doom_dir="${dir}"
+        break
+    fi
+done
+
+if [[ -z "${doom_dir-}" ]]; then
+    echo >&2 "Cannot find Doom installation"
+    return 1
+fi
+
+"${doom_dir}/bin/doom" "${@-}"
