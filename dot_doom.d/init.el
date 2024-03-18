@@ -10,7 +10,7 @@
        (emoji +ascii +github +unicode)
        hl-todo
        indent-guides
-       (ligatures +extra)
+       ligatures
        minimap
        modeline
        nav-flash

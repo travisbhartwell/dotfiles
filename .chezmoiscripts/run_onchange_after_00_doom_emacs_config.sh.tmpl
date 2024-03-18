@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+# This will run a Doom sync after any time the Doom config is changed.
+{{- range (expandenv "$HOME/.doom.d/**/*.el" | glob) }}
+# {{ . }}: {{ include . | sha256sum }}
+{{- end }}
+
+function find_doom() {
+    local dir
+    local doom_dir
+
+    for dir in "${HOME}/.config/emacs" "${HOME}/.emacs.d"; do
+        if [[ -d "${dir}" ]] && [[ -x "${dir}/bin/doom" ]]; then
+            doom_dir="${dir}"
+            break
+        fi
+    done
+
+    if [[ -z "${doom_dir-}" ]]; then
+        echo >&2 "Cannot find Doom installation"
+        return 1
+    fi
+
+    echo "${doom_dir}/bin/doom"
+}
+
+if ! doom_bin=$(find_doom); then
+    exit 1
+fi
+
+"${doom_bin}" sync

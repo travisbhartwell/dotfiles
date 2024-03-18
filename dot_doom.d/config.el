@@ -9,21 +9,11 @@
 (setq user-full-name "Travis B. Hartwell"
       user-mail-address "nafai@travishartwell.net")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
-;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+;; TODO:
+;; - Dynamically set font size based on screen resolution
+;; - Set doom-variable-pitch-font and doom-big-font
 (let ((tbh-font-family
        (seq-find #'doom-font-exists-p ["Monaspace Krypton" "SauceCodePro NF"])))
-  ;; TODO: Dynamically set size based on screen resolution
   (setq doom-font (font-spec :family tbh-font-family :size 16)))
 
 (use-package! ef-themes
