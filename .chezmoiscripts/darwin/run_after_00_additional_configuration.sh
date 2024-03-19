@@ -168,7 +168,7 @@ function setup_sudo_touchid() {
     fi
 
     if [[ "${create_needed}" = "true" ]]; then
-        cat <<EOF | sudo tee /etc/pam.d/sudo_local
+        cat <<EOF | sudo tee "${local_config}"
 # sudo_local: local config file which survives system update and is included for sudo
 # uncomment following line to enable Touch ID for sudo
 auth       sufficient     pam_tid.so
