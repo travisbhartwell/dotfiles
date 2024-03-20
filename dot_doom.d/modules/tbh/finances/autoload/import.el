@@ -19,7 +19,7 @@
     (goto-char (point-max))
     (newline)
     (insert-file-contents generated-file)
-    (+format-buffer-h)
+    (ledger-mode-clean-buffer)
     (goto-char (point-min))
     (tbh/ledger-next-imported-xact)))
 

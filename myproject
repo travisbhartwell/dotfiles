@@ -38,6 +38,7 @@ function diff-packages-toml() {
     # loading on non-Mac OS platforms.
     mycmd.init_bin brew
 
+    # shellcheck disable=SC2312
     diff <(mycmd.bin_execute brew bundle dump --force --file=- 2>/dev/null | sort -u) \
          <(mycmd.bin_execute chezmoi execute-template <"${TEMPLATE_DIR}/Brewfile" | sort -u)
 }

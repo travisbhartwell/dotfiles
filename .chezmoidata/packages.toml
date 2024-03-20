@@ -84,6 +84,7 @@ casks = [
     "visual-studio-code-insiders",
     "vivaldi",
     "webcatalog",
+    "zoom",
 ]
 
 [[packages.darwin.brews_with_args]]
