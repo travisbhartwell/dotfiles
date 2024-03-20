@@ -14,3 +14,16 @@
 (defun tbh/mycmd-direct-call (cmd &rest args)
   "Call out to script that uses MyCmd as the shebang."
   (apply #'doom-call-process (cons cmd (remq nil args))))
+
+;;;###autoload
+(defun tbh/mycmd-project-tasks ()
+  (-let (((_status . output) (tbh/mycmd-call "project" "list-tasks" "--quiet")))
+    (s-lines output)))
+
+;;;###autoload
+(defun tbh/mycmd-project-run-task ()
+  (interactive)
+  (-let*
+      ((task (completing-read "Select Project Task to Run: " (tbh/mycmd-project-tasks) nil t nil nil))
+       (cmd-line (s-join " " `("mycmd" "project" "run" ,task))))
+    (compile cmd-line)))
