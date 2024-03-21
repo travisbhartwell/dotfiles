@@ -43,6 +43,7 @@ brews = [
     "pipx",
     "poetry",
     "qemu",
+    "rename",
     "ripgrep",
     "rustup-init",
     "saulpw/vd/visidata",

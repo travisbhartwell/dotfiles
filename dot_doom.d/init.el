@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (doom! :completion
-       company
+       (corfu +icons +orderless +dabbrev)
        (vertico +icons)
 
        :ui

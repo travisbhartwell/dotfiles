@@ -26,21 +26,6 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
-
-["Library/Application Support/zsh/iterm_zsh_integration.sh"]
-    type = "file"
-    url = "https://iterm2.com/shell_integration/zsh"
-    refreshPeriod = "168h"
-
-# iTerm2 Utilities
-# https://github.com/gnachman/iTerm2-shell-integration/tree/main/utilities
-{{- range $_, $command := list "it2getvar" "it2copy" }}
-[".local/bin/{{ $command }}"]
-    type = "file"
-    url = "https://github.com/gnachman/iTerm2-shell-integration/raw/HEAD/utilities/{{ $command }}"
-    executable = true
-    refreshPeriod = "168h"
-{{- end }}
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
