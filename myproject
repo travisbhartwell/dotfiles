@@ -31,15 +31,16 @@ project.register_fileset ALL_COMMANDS
 project.find_files_for_fileset ALL_COMMANDS "${MYCMD_DIR}" -type f ! -name "*-lib"
 project.register_task_with_fileset list-all-commands project.list-files ALL_COMMANDS
 
-mycmd.defer_at_startup mycmd.init_bin chezmoi
 
-function diff-packages-toml() {
-    # This is in this function so this doesn't prevent the project file from
-    # loading on non-Mac OS platforms.
-    mycmd.init_bin brew
+if [[ "${_MYCMD_OS}" = "Darwin" ]]; then
+    mycmd.defer_at_startup mycmd.init_bin brew
+    mycmd.defer_at_startup mycmd.init_bin chezmoi
 
-    # shellcheck disable=SC2312
-    diff <(mycmd.bin_execute brew bundle dump --force --file=- 2>/dev/null | sort -u) \
-         <(mycmd.bin_execute chezmoi execute-template <"${TEMPLATE_DIR}/Brewfile" | sort -u)
-}
-project.register_task diff-packages-toml
+    function diff-packages-toml() {
+        # shellcheck disable=SC2312
+        diff \
+            <(mycmd.bin_execute brew bundle dump --force --file=- 2>/dev/null | sort -u) \
+            <(mycmd.bin_execute chezmoi execute-template <"${TEMPLATE_DIR}/Brewfile" | sort -u)
+    }
+    project.register_task diff-packages-toml
+fi
