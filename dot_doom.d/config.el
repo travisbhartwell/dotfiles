@@ -41,10 +41,6 @@
             (append '("ggrep")
                     (cdr consult-grep-args)))))
 
-(use-package! auto-dim-other-buffers
-  :config
-  (auto-dim-other-buffers-mode t))
-
 ;; Temporarily allow ~/.authinfo until I get gpg working again
 (pushnew! auth-sources "~/.authinfo")
 

@@ -1,6 +1,7 @@
 [packages]
 [packages.darwin]
 taps = [
+    "charmbracelet/tap",
     "daviderestivo/emacs-head",
     "homebrew/bundle",
     "homebrew/cask-fonts",
@@ -13,6 +14,7 @@ brews = [
     "bash-language-server",
     "bat",
     "bat-extras",
+    "charmbracelet/tap/freeze",
     "chezmoi",
     "coreutils",
     "diffoscope",
@@ -85,6 +87,7 @@ casks = [
     "visual-studio-code-insiders",
     "vivaldi",
     "webcatalog",
+    "zed",
     "zoom",
 ]
 
