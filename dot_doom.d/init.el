@@ -11,7 +11,6 @@
        hl-todo
        indent-guides
        ligatures
-       minimap
        modeline
        nav-flash
        neotree
