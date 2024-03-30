@@ -79,12 +79,6 @@ _tbh_set_up_mycmd
 _tbh_prepend_dir_to_path "${HOME}/bin"
 
 # ------------------------------------------------------------------------------
-# direnv support
-if command -v direnv &>/dev/null; then
-    eval "$(direnv hook zsh)"
-fi
-
-# ------------------------------------------------------------------------------
 # mise support
 if command -v mise &>/dev/null; then
     eval "$(mise activate zsh --shims)"

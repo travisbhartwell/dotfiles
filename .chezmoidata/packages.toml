@@ -42,6 +42,7 @@ brews = [
     "pandoc",
     "pipx",
     "poetry",
+    "poppler",
     "qemu",
     "rename",
     "ripgrep",

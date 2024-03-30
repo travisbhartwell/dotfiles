@@ -1,8 +1,0 @@
-# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
-
-local -r statement_pdf="${1}"
-local order_id
-
-pdftotext "${statement_pdf}" - | grep -E '\d{3}-\d{7}-\d{7}' | sort -u | while read -r order_id; do
-    open-amazon-invoice "${order_id}"
-done
