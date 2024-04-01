@@ -31,10 +31,10 @@ project.register_fileset ALL_COMMANDS
 project.find_files_for_fileset ALL_COMMANDS "${MYCMD_DIR}" -type f ! -name "*-lib"
 project.register_task_with_fileset list-all-commands project.list-files ALL_COMMANDS
 
+mycmd.defer_at_startup mycmd.init_bin chezmoi
 
 if [[ "${_MYCMD_OS}" = "Darwin" ]]; then
     mycmd.defer_at_startup mycmd.init_bin brew
-    mycmd.defer_at_startup mycmd.init_bin chezmoi
 
     function diff-packages-toml() {
         # shellcheck disable=SC2312
@@ -44,3 +44,9 @@ if [[ "${_MYCMD_OS}" = "Darwin" ]]; then
     }
     project.register_task diff-packages-toml
 fi
+
+function apply-changes() {
+    mycmd.bin_execute chezmoi apply -v
+}
+project.register_task apply-changes
+project.register_default_task apply-changes

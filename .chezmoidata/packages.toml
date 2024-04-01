@@ -29,6 +29,7 @@ brews = [
     "go-critic",
     "golangci-lint",
     "grep",
+    "grip",
     "gum",
     "hatch",
     "hyperfine",
