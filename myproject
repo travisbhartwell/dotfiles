@@ -12,6 +12,8 @@ readonly MYCMD_DIR="${MYPROJECT_BASE_DIR}/mycmd"
 readonly BOOTSTRAP_DIR="${MYPROJECT_BASE_DIR}/bootstrap"
 # shellcheck disable=SC2154
 readonly TEMPLATE_DIR="${MYPROJECT_BASE_DIR}/.chezmoitemplates"
+# shellcheck disable=SC2154
+readonly DATA_DIR="${MYPROJECT_BASE_DIR}/.chezmoidata"
 
 project.register_fileset ALL_BASH_SCRIPTS
 project.find_files_for_fileset ALL_BASH_SCRIPTS "${MYCMD_DIR}" -type f
@@ -43,6 +45,12 @@ if [[ "${_MYCMD_OS}" = "Darwin" ]]; then
             <(mycmd.bin_execute chezmoi execute-template <"${TEMPLATE_DIR}/Brewfile" | sort -u)
     }
     project.register_task diff-packages-toml
+
+    mycmd.defer_at_startup mycmd.init_bin toml-sort
+    function format-packages-toml() {
+        mycmd.bin_execute toml-sort --all --in-place --sort-first taps,brews,casks "${DATA_DIR}/packages.toml"
+    }
+    project.register_task format-packages-toml
 fi
 
 function apply-changes() {
