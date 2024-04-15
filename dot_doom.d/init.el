@@ -91,4 +91,4 @@
 ;; This is the commit of the Doom Emacs source that this is based upon
 ;; TODO: Add function to update this automatically
 (setq tbh-last-init-el-template-commit
-      "665d808d09ecba0be1b2de3977950e579bb5daee")
+      "5b7d6763f8f899e556c7c5d89556bf39a1c81f64")

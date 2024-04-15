@@ -46,7 +46,8 @@
 
 (defun tbh/ediff-init ()
   (interactive)
-  (let ((init-template-file (expand-file-name "templates/init.example.el" doom-emacs-dir)))
+  (let ((default-directory doom-emacs-dir)
+        (init-template-file "templates/init.example.el"))
     (magit-ediff-compare tbh-last-init-el-template-commit "HEAD" init-template-file init-template-file)))
 
 (use-package! lsp-treemacs-nerd-icons
