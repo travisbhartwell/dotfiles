@@ -26,6 +26,13 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+
+["Library/Application Support/zsh/themes/powerlevel10k"]
+    type = "archive"
+    url = "https://github.com/romkatv/powerlevel10k/archive/master.tar.gz"
+    exact = false
+    stripComponents = 1
+    refreshPeriod = "168h"
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
@@ -54,6 +61,13 @@
     type = "archive"
     url = "https://github.com/nix-community/nix-zsh-completions/archive/master.tar.gz"
     exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".config/zsh/themes/powerlevel10k"]
+    type = "archive"
+    url = "https://github.com/romkatv/powerlevel10k/archive/master.tar.gz"
+    exact = false
     stripComponents = 1
     refreshPeriod = "168h"
 {{- end }}

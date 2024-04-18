@@ -43,6 +43,14 @@ _tbh_load_zsh_plugin_if_exists() {
 }
 
 # ------------------------------------------------------------------------------
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/$ZDOTDIR/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ------------------------------------------------------------------------------
 # History Configuration
 HISTFILE="${_TBH_ZSH_CACHE_DIR}/zsh_history"
 typeset -gxi HISTSIZE=1000000
@@ -127,15 +135,11 @@ if command -v direnv &>/dev/null; then
 fi
 
 # ------------------------------------------------------------------------------
-# Starship Prompt support
-if command -v starship &>/dev/null; then
-    eval "$(starship init zsh)"
-fi
-
-# ------------------------------------------------------------------------------
 # Enable iTerm shell integration
 # https://iterm2.com/documentation-shell-integration.html
-_tbh_source_if_exists "${ZDOTDIR}/iterm_zsh_integration.sh"
+if [[ "${__CFBundleIdentifier}" = "com.googlecode.iterm2" ]]; then
+    _tbh_source_if_exists "${ZDOTDIR}/iterm_zsh_integration.sh"
+fi
 
 # ------------------------------------------------------------------------------
 # Fast Syntax Highlighting Plugin
@@ -148,3 +152,18 @@ _tbh_load_zsh_plugin_if_exists fast-syntax-highlighting
 #
 # https://github.com/jeffreytse/zsh-vi-mode
 _tbh_load_zsh_plugin_if_exists zsh-vi-mode
+
+# ------------------------------------------------------------------------------
+# Powerlevel 10k
+#
+# https://github.com/romkatv/powerlevel10k
+function _tbh_load_powerlevel10k() {
+    local -r powerlevel_dir="${ZDOTDIR}/themes/powerlevel10k"
+    local -r source_file="${powerlevel_dir}/powerlevel10k.zsh-theme"
+    local -r config_file="${ZDOTDIR}/.p10k.zsh"
+
+    _tbh_source_if_exists "${source_file}"
+    _tbh_source_if_exists "${config_file}"
+}
+
+_tbh_load_powerlevel10k
