@@ -19,6 +19,8 @@
   (ef-themes-select 'ef-dark))
 
 (setq doom-theme 'ef-dark)
+(set-frame-parameter nil 'alpha-background 85)
+(add-to-list 'default-frame-alist '(alpha-background . 85))
 
 (setq org-directory (expand-file-name "~/Documents/org/"))
 

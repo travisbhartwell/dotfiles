@@ -35,7 +35,7 @@ project.register_task_with_fileset list-all-commands project.list-files ALL_COMM
 
 mycmd.defer_at_startup mycmd.init_bin chezmoi
 
-if [[ "${_MYCMD_OS}" = "Darwin" ]]; then
+if mycmd.is_mac_os; then
     mycmd.defer_at_startup mycmd.init_bin brew
 
     function diff-packages-toml() {
