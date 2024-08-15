@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (doom! :completion
-       company
+       (corfu +orderless +icons)
        (vertico +icons)
 
        :ui
@@ -91,4 +91,4 @@
 ;; This is the commit of the Doom Emacs source that this is based upon
 ;; TODO: Add function to update this automatically
 (setq tbh-last-init-el-template-commit
-      "5b7d6763f8f899e556c7c5d89556bf39a1c81f64")
+      "8be1ef498b81628214ab5e78739661faaf9d950f")

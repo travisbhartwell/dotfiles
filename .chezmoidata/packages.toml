@@ -65,6 +65,7 @@ casks = [
   "cleanmymac",
   "discord",
   "epic-games",
+  "foxit-pdf-editor",
   "font-commit-mono",
   "font-meslo-for-powerlevel10k",
   "font-monaspace",

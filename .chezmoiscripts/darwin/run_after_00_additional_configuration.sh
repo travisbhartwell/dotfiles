@@ -57,6 +57,8 @@ function setup_dock() {
     defaults_write_if_needed com.apple.dock expose-group-apps -bool true
     # Disable auto arranging spaces based on MRU
     defaults_write_if_needed com.apple.dock mru-spaces -bool false
+    # Enable separate spaces per display
+    defaults_write_if_needed com.apple.spaces spans-displays -bool true
 
     # After Dock configuration, restart
     if [[ "${updated}" = "true" ]]; then
