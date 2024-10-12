@@ -7,40 +7,40 @@ set -o nounset -o errexit -o errtrace -o pipefail
 updated="false"
 
 function defaults_write_if_needed() {
-   local -r domain="${1}"
-   local -r key="${2}"
-   local -r type="${3}"
-   local -r value="${4}"
+    local -r domain="${1}"
+    local -r key="${2}"
+    local -r type="${3}"
+    local -r value="${4}"
 
-   local current
-   local unset="false"
+    local current
+    local unset="false"
 
-   if ! current="$(defaults read "${domain}" "${key}" 2> /dev/null)"; then
-       unset="true"
-   fi
+    if ! current="$(defaults read "${domain}" "${key}" 2>/dev/null)"; then
+        unset="true"
+    fi
 
-   if [[ "${type}" = "-bool" ]]; then
-       if [[ "${current}" = "0" ]]; then
-           current="false"
-       elif [[ "${current}" = "1" ]]; then
-           current="true"
-       fi
-   fi
+    if [[ "${type}" = "-bool" ]]; then
+        if [[ "${current}" = "0" ]]; then
+            current="false"
+        elif [[ "${current}" = "1" ]]; then
+            current="true"
+        fi
+    fi
 
-   if [[ "${type}" = "-array" ]]; then
-       local empty_array="(
+    if [[ "${type}" = "-array" ]]; then
+        local empty_array="(
 )"
-       if [[ "${current}" = "${empty_array}" ]]; then
-           current=""
-       fi
-   fi
+        if [[ "${current}" = "${empty_array}" ]]; then
+            current=""
+        fi
+    fi
 
-   if [[ "${unset}" = "true" ]] || [[ "${current}" != "${value}" ]]; then
-       echo >&2 "Update needed, executing 'defaults write ${domain} ${key} ${type} ${value}'."
+    if [[ "${unset}" = "true" ]] || [[ "${current}" != "${value}" ]]; then
+        echo >&2 "Update needed, executing 'defaults write ${domain} ${key} ${type} ${value}'."
 
-       defaults write "${domain}" "${key}" "${type}" "${value}"
-       updated="true"
-   fi
+        defaults write "${domain}" "${key}" "${type}" "${value}"
+        updated="true"
+    fi
 }
 
 function setup_dock() {
@@ -175,9 +175,9 @@ function setup_sudo_touchid() {
 # uncomment following line to enable Touch ID for sudo
 auth       sufficient     pam_tid.so
 EOF
+        echo >&2 "Updated sudo configuration."
     fi
 }
-
 
 setup_dock
 setup_finder

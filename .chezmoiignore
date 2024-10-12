@@ -8,5 +8,6 @@ Library
 .chezmoiscripts/darwin
 {{ end }}
 {{ if ne .chezmoi.os "linux" }}
+.chezmoiscripts/linux
 .config/zsh
 {{ end  }}

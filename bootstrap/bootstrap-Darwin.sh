@@ -111,6 +111,11 @@ function initialize_chezmoi() {
 function main() {
     echo_msg "Bootstrapping Configuration"
 
+    if [[ "$(uname -s || true)" != "Darwin" ]]; then
+        echo_msg "This script only supports Mac OS."
+        exit 1
+    fi
+
     echo_msg "Authenticating with sudo"
     sudo -v
 
