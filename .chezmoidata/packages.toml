@@ -21,7 +21,9 @@ brews = [
   "dbcli/tap/litecli",
   "diffoscope",
   "direnv",
+  "duckdb",
   "exercism",
+  "exiftool",
   "eza",
   "fd",
   "findutils",
@@ -29,6 +31,7 @@ brews = [
   "gawk",
   "gh",
   "git",
+  "gmailctl",
   "go",
   "go-critic",
   "golangci-lint",
@@ -36,6 +39,7 @@ brews = [
   "grep",
   "grip",
   "gum",
+  "gyb",
   "hatch",
   "hyperfine",
   "isort",
@@ -46,8 +50,10 @@ brews = [
   "mas",
   "mise",
   "moreutils",
+  "oils-for-unix",
   "pandoc",
   "pipx",
+  "pkgconf",
   "poetry",
   "poppler",
   "qemu",
@@ -57,13 +63,15 @@ brews = [
   "saulpw/vd/visidata",
   "shellcheck",
   "shfmt",
+  "sleek",
   "symlinks",
   "tmux",
   "tree-sitter",
   "wordnet",
   "xsv",
   "yj",
-  "zellij"
+  "zellij",
+  "zig"
 ]
 casks = [
   "cleanmymac",
@@ -91,7 +99,7 @@ casks = [
   "spotify",
   "steam",
   "tabula",
-  "visual-studio-code-insiders",
+  "visual-studio-code@insiders",
   "vivaldi",
   "webcatalog",
   "zed",
@@ -112,6 +120,10 @@ name = "daviderestivo/emacs-head/emacs-head@29"
 [[packages.darwin.brews_with_args]]
 args = ["HEAD"]
 name = "neovim"
+
+[[packages.darwin.brews_with_args]]
+args = ["HEAD"]
+name = "utf8proc"
 
 [[packages.darwin.mas]]
 id = 937984704
@@ -144,3 +156,21 @@ name = "Xcode"
 [[packages.darwin.mas]]
 id = 6451135429
 name = "EnergizeLab"
+
+[packages.linux]
+debs = [
+  "aspell",
+  "aspell-en",
+  "bat",
+  "emacs-pgtk",
+  "fd-find",
+  "fzf",
+  "ispell",
+  "jq",
+  "ledger",
+  "ripgrep",
+  "tree-sitter",
+  "tmux",
+  "visidata",
+  "zsh"
+]

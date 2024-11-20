@@ -63,6 +63,7 @@
        data
        emacs-lisp
        (go +lsp +tree-sitter)
+       graphviz
        (haskell +lsp +tree-sitter)
        (json +lsp +tree-sitter)
        (java +lsp +tree-sitter)
