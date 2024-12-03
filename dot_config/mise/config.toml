@@ -1,4 +1,5 @@
 [tools]
+bitwarden = '2024.11.1'
 deno = '2.0.0'
 erlang = '26.2'
 gleam = '1.0'

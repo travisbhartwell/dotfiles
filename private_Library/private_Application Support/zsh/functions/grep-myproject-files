@@ -1,5 +1,3 @@
 # -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
 
-local -a project_files=( $(mdfind -literal 'kMDItemFSName = "myproject"') )
-
-ggrep "${@}" "${project_files[@]}"
+mdfind -0 -literal 'kMDItemFSName = "myproject"' | xargs -0 ggrep "${@}"
