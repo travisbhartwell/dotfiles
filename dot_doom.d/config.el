@@ -65,3 +65,14 @@
   :commands janet-mode
   :mode "\\.janet\\'"
   :interpreter "janet")
+
+;; Proofread current file
+(if (featurep :system 'macos)
+    (defun tbh/proofread-file ()
+      (interactive)
+      (when
+          (y-or-n-p "Save the file before proofreading?")
+        (save-buffer))
+      (goto-char (point-min))
+      (let ((say-command-line (s-join " " `("say" "-f" ,(buffer-file-name)))))
+        (start-process-shell-command "*proofreading with say*" nil say-command-line))))
