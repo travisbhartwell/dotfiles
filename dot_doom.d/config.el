@@ -28,8 +28,35 @@
 
 (setq ispell-dictionary "en")
 
-(setq +format-on-save-enabled-modes
-      '(not sh-mode))
+;; Configure formatting for sh-mode
+(after! sh-script
+  (set-formatter! 'shfmt-bash
+    '("shfmt" "--case-indent" "--language-dialect" "bash" "--binary-next-line"
+      (unless indent-tabs-mode
+        (list "-i" (number-to-string tab-width))))
+    :modes '((sh-mode (string= sh-shell "bash"))))
+
+  (set-formatter! 'beautysh
+    '("beautysh" "-"
+      ("-i" "%d" (unless indent-tabs-mode tab-width)))
+    :modes '((sh-mode (string= sh-shell "zsh")))))
+
+(add-hook! 'sh-set-shell-hook
+  (defun +sh-shell-set-formatter()
+    (message "sh-shell set to '%s'" sh-shell)
+    (message "+format-with set to '%s'" +format-with)
+
+    (cond
+     ((not (null +format-with))
+      (message "Not overriding local set +format-with."))
+     ((string= sh-shell "zsh")
+      (progn
+        (message "Setting formatter for zsh to beautysh")
+        (setq +format-with 'beautysh)))
+     ((string= sh-shell "bash")
+      (progn
+        (message "Setting formatter for bash to shfmt-bash")
+        (setq +format-with 'shfmt-bash))))))
 
 ;; Allows for editing files for use with https://github.com/booniepepper/dsg-md-posix/
 (add-to-list 'auto-mode-alist '("\\.md\\.part\\'" . markdown-mode))
@@ -42,9 +69,6 @@
       (setq consult-grep-args
             (append '("ggrep")
                     (cdr consult-grep-args)))))
-
-;; Temporarily allow ~/.authinfo until I get gpg working again
-(pushnew! auth-sources "~/.authinfo")
 
 (defun tbh/ediff-init ()
   (interactive)
