@@ -6,10 +6,17 @@
     exit 1
 }
 
-mycmd.register_command_group_version "1.0"
-mycmd.register_command_group_short_desc "financial account data file cleaning tools"
+if [[ -v _MYCMD_VERSION ]]; then
+    mycmd:command_group_registry.register_version "1.0"
+    mycmd:command_group_registry.register_short_description "financial account data file cleaning tools"
 
-[[ -n "${_MYCMD_SOURCING_COMMAND_GROUP_FOR_HELP:-}" ]] && return
+    [[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
+else
+    mycmd.register_command_group_version "1.0"
+    mycmd.register_command_group_short_desc "financial account data file cleaning tools"
+
+    [[ -n "${_MYCMD_SOURCING_COMMAND_GROUP_FOR_HELP:-}" ]] && return
+fi
 
 [[ -n "${_MYCMD_FINANCIAL_DATA_CLEANING_LIB:-}" ]] && return
 readonly _MYCMD_FINANCIAL_DATA_CLEANING_LIB=1
