@@ -2,38 +2,22 @@
 # -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
 # shellcheck shell=bash
 
-if [[ -v _MYCMD_VERSION ]]; then
-    mycmd:command.register_version "1.0"
-    mycmd:command.register_short_description "list all original source financal data CSV files, ordered by date"
-
-    mycmd:command.register_help_text "This will list all of the original financial CSV files found, grouped"
-    mycmd:command.register_help_text "by account and ordered by date.\n"
-    # shellcheck disable=SC2154
-    mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING}"
-    mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -h | --help"
-    mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -v | --version"
-    mycmd:command.register_help_text "Options:"
-    mycmd:command.register_help_text "\t-h | --help    - Show this help"
-    mycmd:command.register_help_text "\t-v | --version - Show this command's version"
-
-    [[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
-else
-    mycmd.register_command_version "1.0"
-    mycmd.register_command_short_desc "list all original source financal data CSV files, ordered by date"
-
-    mycmd.add_command_help_line "This will list all of the original financial CSV files found, grouped"
-    mycmd.add_command_help_line "by account and ordered by date.\n"
-    mycmd.add_command_help_line "$(mycmd.running_command_parts_from_path || true)"
-    mycmd.add_command_help_line "$(mycmd.running_command_parts_from_path || true) -h | --help"
-    mycmd.add_command_help_line "$(mycmd.running_command_parts_from_path || true) -v | --version"
-    mycmd.add_command_help_line "Options:"
-    mycmd.add_command_help_line "\t-h | --help    - Show this help"
-    mycmd.add_command_help_line "\t-v | --version - Show this command's version"
-
-    [[ -n "${_MYCMD_SOURCING_COMMAND_FOR_HELP:-}" ]] && return
-fi
-
 set -o nounset -o errexit -o errtrace -o pipefail
+
+mycmd:command.register_version "1.0"
+mycmd:command.register_short_description "list all original source financal data CSV files, ordered by date"
+
+mycmd:command.register_help_text "This will list all of the original financial CSV files found, grouped"
+mycmd:command.register_help_text "by account and ordered by date.\n"
+# shellcheck disable=SC2154
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING}"
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -h | --help"
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -v | --version"
+mycmd:command.register_help_text "Options:"
+mycmd:command.register_help_text "\t-h | --help    - Show this help"
+mycmd:command.register_help_text "\t-v | --version - Show this command's version"
+
+[[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
 
 function mycmd.main() {
     if (($# < 1)); then
