@@ -6,8 +6,8 @@
     exit 1
 }
 
-mycmd:command_group_registry.register_version "1.0"
-mycmd:command_group_registry.register_short_description "financial account data file cleaning tools"
+mycmd:command_group.register_version "1.0"
+mycmd:command_group.register_short_description "financial account data file cleaning tools"
 
 [[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
 
