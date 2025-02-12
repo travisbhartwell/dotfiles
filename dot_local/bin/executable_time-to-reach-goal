@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import sys
+from datetime import timedelta
+
+if len(sys.argv) < 3:
+    print("Usage: time-to-reach-goal <goal> <steps-so-far>", file=sys.stderr)
+    sys.exit(1)
+
+goal = int(sys.argv[1])
+steps_so_far = int(sys.argv[2])
+
+STEPS = 1264
+TIME_IN_MINUTES = 10
+
+remaining_minutes = ((goal - steps_so_far) * TIME_IN_MINUTES) / STEPS
+remaining_time = timedelta(minutes=remaining_minutes)
+print(remaining_time)

@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (doom! :completion
-       (corfu +orderless +icons)
+       (corfu +icons +orderless)
        (vertico +icons)
 
        :ui
@@ -28,20 +28,20 @@
        (evil +everywhere)
        file-templates
        fold
-       (format +onsave)
+       (format +onsave +lsp)
        snippets
        word-wrap
 
        :emacs
-       (dired +ranger +icons)
+       (dired +dirvish +icons)
        electric
        (ibuffer +icons)
        undo
        vc
 
        :checkers
-       syntax
-       spell
+       (syntax +icons)
+       (spell +everywhere)
        grammar
 
        :tools
@@ -71,7 +71,7 @@
        (lua +fennel +lsp +tree-sitter)
        (markdown +grip)
        (nix +lsp +tree-sitter)
-       (org +pandoc +pretty)
+       (org +journal +pandoc +pretty +roam2)
        (python +lsp +pyright +pyenv +poetry +tree-sitter)
        (rust +lsp +tree-sitter)
        (sh +lsp +tree-sitter)

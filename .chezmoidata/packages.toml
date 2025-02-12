@@ -7,6 +7,7 @@ taps = [
   "homebrew/bundle",
   "homebrew/cask-fonts",
   "homebrew/cask-versions",
+  "homebrew/services",
   "saulpw/vd"
 ]
 brews = [
@@ -27,6 +28,7 @@ brews = [
   "exiftool",
   "eza",
   "fd",
+  "ffmpegthumbnailer",
   "findutils",
   "flamegraph",
   "fzf",
@@ -46,15 +48,20 @@ brews = [
   "hatch",
   "htmlq",
   "hyperfine",
+  "imagemagick",
   "isort",
   "ispell",
   "janet",
   "jless",
   "jq",
   "ledger",
+  "links",
   "mas",
+  "media-info",
   "mise",
   "moreutils",
+  "neovim",
+  "ninja",
   "oils-for-unix",
   "pandoc",
   "pipx",
@@ -91,6 +98,7 @@ casks = [
   "font-sauce-code-pro-nerd-font",
   "font-source-code-pro",
   "font-symbols-only-nerd-font",
+  "ghostty",
   "google-chrome",
   "google-drive",
   "iterm2",
@@ -100,6 +108,7 @@ casks = [
   "keyclu",
   "loupedeck",
   "mysides",
+  "openmtp",
   "raycast",
   "signal",
   "spotify",
@@ -122,10 +131,6 @@ args = [
   "with-tree-sitter"
 ]
 name = "daviderestivo/emacs-head/emacs-head@29"
-
-[[packages.darwin.brews_with_args]]
-args = ["HEAD"]
-name = "neovim"
 
 [[packages.darwin.brews_with_args]]
 args = ["HEAD"]
@@ -162,6 +167,10 @@ name = "Xcode"
 [[packages.darwin.mas]]
 id = 6451135429
 name = "EnergizeLab"
+
+[[packages.darwin.mas]]
+id = 1494992020
+name = "Supernote Partner"
 
 [packages.linux]
 debs = [
