@@ -1,0 +1,52 @@
+#!/usr/bin/env -S mycmd
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+set -o nounset -o errexit -o errtrace -o pipefail
+
+mycmd:command.register_version "1.0"
+mycmd:command.register_short_description "open a statement by account and date"
+
+mycmd:command.register_help_text "This will open a statement specified by the account name and date.\n"
+# shellcheck disable=SC2154
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} <account name> <date>"
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -h | --help"
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -v | --version"
+mycmd:command.register_help_text "Options:"
+mycmd:command.register_help_text "\t-h | --help    - Show this help"
+mycmd:command.register_help_text "\t-v | --version - Show this command's version"
+
+[[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
+
+# shellcheck disable=SC2154
+function mycmd.main() {
+    if (($# < 2)); then
+        # shellcheck disable=SC2154
+        mycmd:command.print_help_by_name "${_MYCMD_FULLY_QUALIFIED_NAME}"
+    fi
+
+    local -r account="${1}"
+    local -r date="${2}"
+
+    case "${account}" in
+        "${FINANCIAL_CAPITAL_ONE}")
+            financial.open_capital_one_statement_by_date "${date}"
+            ;;
+
+        "${FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT}")
+            financial.open_charles_schwab_investment_account_statement_by_date "${date}"
+            ;;
+
+        "${FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA}")
+            financial.open_charles_schwab_rollover_ira_statement_by_date "${date}"
+            ;;
+
+        "${FINANCIAL_CHASE_VISA_ACCOUNT}")
+            financial.open_chase_visa_statement_by_date "${date}"
+            ;;
+
+        *)
+            mycmd.err_exit "Unknown account type '${account}'" 1
+            ;;
+    esac
+}

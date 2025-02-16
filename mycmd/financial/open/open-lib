@@ -1,0 +1,57 @@
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+(return 0 >/dev/null 2>&1) || {
+    echo >&2 "$0 is a library only meant to be sourced."
+    exit 1
+}
+
+mycmd:command_group.register_version "1.0"
+mycmd:command_group.register_short_description "financial data file opening tools"
+
+[[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
+
+[[ -n "${_MYCMD_FINANCIAL_OPEN_LIB:-}" ]] && return
+readonly _MYCMD_FINANCIAL_OPEN_LIB=1
+
+function financial.open_capital_one_statement_by_date() {
+    local -r date="${1}"
+
+    local statement
+    statement="$(financial.capital_one_statement_by_date "${date}")"
+    readonly statement
+
+    open "${statement}"
+}
+
+function financial.open_charles_schwab_investment_account_statement_by_date() {
+    local -r date="${1}"
+
+    local statement
+    statement="$(financial.charles_schwab_investment_account_statement_by_date "${date}")"
+    readonly statement
+
+    open "${statement}"
+}
+
+function financial.open_charles_schwab_rollover_ira_statement_by_date() {
+    local -r date="${1}"
+
+    local statement
+    statement="$(financial.charles_schwab_rollover_ira_statement_by_date "${date}")"
+    readonly statement
+
+    open "${statement}"
+}
+
+function financial.open_chase_visa_statement_by_date() {
+    local -r date="${1}"
+
+    local statement
+    statement="$(financial.chase_visa_statement_by_date "${date}")"
+    readonly statement
+
+    open "${statement}"
+}
+
+mycmd.trace "The Financal Open library has been sourced."
