@@ -15,7 +15,7 @@ mycmd:command_group.register_help_text "A set of commands for helping in importi
 [[ -n "${_MYCMD_FINANCIAL_LIB:-}" ]] && return
 readonly _MYCMD_FINANCIAL_LIB=1
 
-# Common Variables
+# Common Variables -- Working Data
 readonly FINANCIAL_BASE_WORKING_DATA_DIR="${HOME}/Documents/Financial/working"
 export FINANCIAL_BASE_WORKING_DATA_DIR
 
@@ -28,60 +28,38 @@ export FINANCIAL_CLEANED_CSV_BASE_DIR
 readonly FINANCIAL_IMPORTS_BASE_DIR="${FINANCIAL_BASE_WORKING_DATA_DIR}/imports"
 export FINANCIAL_IMPORTS_BASE_DIR
 
-readonly FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT="capital-one/checking"
+readonly FINANCIAL_CAPITAL_ONE="capital-one"
+
+readonly FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT="${FINANCIAL_CAPITAL_ONE}/checking"
 export FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT
 
-readonly FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT="capital-one/money-market"
+readonly FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT="${FINANCIAL_CAPITAL_ONE}/money-market"
 export FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT
+
+readonly FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT="${FINANCIAL_CAPITAL_ONE}/savings"
+export FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT
 
 readonly FINANCIAL_CHASE_VISA_ACCOUNT="chase-visa"
 export FINANCIAL_CHASE_VISA_ACCOUNT
 
-mycmd.defer_at_startup mycmd.init_bin realpath
-function financial.list_source_csvs_by_date() {
-    # TODO: Validate parameters
-    local -r account="$1"
+readonly FINANCIAL_CHARLES_SCHWAB="charles-schwab"
+export FINANCIAL_CHARLES_SCHWAB
 
-    local -r csv_dir="${FINANCIAL_ORIGINAL_CSV_BASE_DIR}/${account}"
+readonly FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT="${FINANCIAL_CHARLES_SCHWAB}/investment-account"
+export FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT
 
-    if [[ ! -d "${csv_dir}" ]]; then
-        mycmd.debug "Directory '${csv_dir}' does not exist."
-        return 1
-    fi
+readonly FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA="${FINANCIAL_CHARLES_SCHWAB}/rollover-ira"
+export FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA
 
-    pushd "${csv_dir}" &>/dev/null || return
-
-    local i
-    local date
-    # local full_path
-
-    for i in *.csv; do
-        date="$(basename "${i}" .csv)"
-        # full_path="$(mycmd.bin_execute realpath -e "${i}")"
-        # echo "${account} ${date} ${full_path}"
-        echo "${account} ${date}"
-    done | sort -u
-
-    popd &>/dev/null || return
-}
-
-function financial.list_chase_visa_source_csvs_by_date() {
-    financial.list_source_csvs_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
-}
-
-function financial.list_capital_one_money_market_source_csvs_by_date() {
-    financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}"
-}
-
-function financial.list_capital_one_checking_source_csvs_by_date() {
-    financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}"
-}
+# Common Variables -- Statements
+readonly FINANCIAL_BASE_STATEMENT_DIR="${HOME}/Google Drive/My Drive/Financial/documents"
+export FINANCIAL_BASE_STATEMENT_DIR
 
 mycmd.defer_at_startup mycmd.init_bin realpath
 function financial._resolve_file() {
-    local -r root_dir="$1"
-    local -r account="$2"
-    local -r filename="$3"
+    local -r root_dir="${1}"
+    local -r account="${2}"
+    local -r filename="${3}"
 
     local -r path_to_resolve="${root_dir}/${account}/${filename}"
 
@@ -97,9 +75,9 @@ function financial._resolve_file() {
 }
 
 function financial._csv_by_date() {
-    local -r root_dir="$1"
-    local -r account="$2"
-    local -r date="$3"
+    local -r root_dir="${1}"
+    local -r account="${2}"
+    local -r date="${3}"
 
     financial._resolve_file "${root_dir}" "${account}" "${date}.csv"
 }
@@ -109,19 +87,25 @@ function financial._originaL_csv_by_date() {
 }
 
 function financial.capital_one_checking_original_csv_by_date() {
-    local -r date="$1"
+    local -r date="${1}"
 
     financial._originaL_csv_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}" "${date}"
 }
 
 function financial.capital_one_money_market_original_csv_by_date() {
-    local -r date="$1"
+    local -r date="${1}"
 
     financial._originaL_csv_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}" "${date}"
 }
 
+function financial.capital_one_savings_original_csv_by_date() {
+    local -r date="${1}"
+
+    financial._originaL_csv_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}" "${date}"
+}
+
 function financial.chase_visa_original_csv_by_date() {
-    local -r date="$1"
+    local -r date="${1}"
 
     financial._originaL_csv_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}" "${date}"
 }
@@ -131,21 +115,59 @@ function financial._cleaned_csv_by_date() {
 }
 
 function financial.capital_one_checking_cleaned_csv_by_date() {
-    local -r date="$1"
+    local -r date="${1}"
 
     financial._cleaned_csv_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}" "${date}"
 }
 
 function financial.capital_one_money_market_cleaned_csv_by_date() {
-    local -r date="$1"
+    local -r date="${1}"
 
     financial._cleaned_csv_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}" "${date}"
 }
 
+function financial.capital_one_savings_cleaned_csv_by_date() {
+    local -r date="${1}"
+
+    financial._cleaned_csv_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}" "${date}"
+}
+
 function financial.chase_visa_cleaned_csv_by_date() {
-    local -r date="$1"
+    local -r date="${1}"
 
     financial._cleaned_csv_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}" "${date}"
 }
 
-mycmd.trace "The Financal library has been sourced."
+function financial._statement_by_date() {
+    local -r account="${1}"
+    local -r date="${2}"
+    local -r year="${date%%-*}"
+    
+    financial._resolve_file "${FINANCIAL_BASE_STATEMENT_DIR}" "${account}" "${year}/${date}.pdf"
+}
+
+function financial.capital_one_statement_by_date() {
+    local -r date="${1}"
+
+    financial._statement_by_date "${FINANCIAL_CAPITAL_ONE}" "${date}"
+}
+
+function financial.chase_visa_statement_by_date() {
+    local -r date="${1}"
+
+    financial._statement_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}" "${date}"
+}
+
+function financial.charles_schwab_investment_account_statement_by_date() {
+    local -r date="${1}"
+
+    financial._statement_by_date "${FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT}" "${date}"
+}
+
+function financial.charles_schwab_rollover_ira_statement_by_date() {
+    local -r date="${1}"
+
+    financial._statement_by_date "${FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA}" "${date}"
+}
+
+mycmd.trace "The Financial library has been sourced."

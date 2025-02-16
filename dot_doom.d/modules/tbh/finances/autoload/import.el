@@ -4,7 +4,7 @@
 (defun tbh/get-source-csvs (account)
   "Get the available source CSVs for ACCOUNT."
   (-let*
-      (((_status . output) (tbh/mycmd-call "financial" "list-source-csvs"))
+      (((_status . output) (tbh/mycmd-call "financial" "list" "source-csvs"))
        (output-lines (-filter (lambda (line) (s-starts-with? account line)) (s-lines output))))
     (-map (lambda (line) (-drop 1 (s-split " " line))) output-lines)))
 
@@ -32,6 +32,11 @@
 (defun tbh/import-capital-one-money-market-csv ()
   (interactive)
   (tbh/import-csv "capital-one/money-market" "capital-one-money-market"))
+
+;;;###autoload
+(defun tbh/import-capital-one-savings-csv ()
+  (interactive)
+  (tbh/import-csv "capital-one/savings" "capital-one-savings"))
 
 ;;;###autoload
 (defun tbh/import-chase-visa-csv ()

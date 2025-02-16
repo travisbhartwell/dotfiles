@@ -36,6 +36,13 @@ function import.capital_one_money_market_imports_ledger_postings_file_by_date() 
     import._imports_ledger_postings_file_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}" "${date}"
 }
 
+function import.capital_one_savings_imports_ledger_postings_file_by_date() {
+    local -r date="$1"
+
+    # shellcheck disable=SC2154
+    import._imports_ledger_postings_file_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}" "${date}"
+}
+
 function import.chase_visa_imports_ledger_postings_file_by_date() {
     local -r date="$1"
 
@@ -132,6 +139,32 @@ function import.import_capital_one_money_market_cleaned_by_date() {
     readonly ledger_output_file
 
     import.import_capital_one_money_market "${cleaned_csv_file}" "${ledger_output_file}"
+}
+
+function import.import_capital_one_savings() {
+    # TODO: Validate parameters
+    local -r input_file="$1"
+    local -r ledger_output_file="$2"
+
+    import._import_csv "Capital One 360 Savings" "${input_file}" "${ledger_output_file}"
+}
+
+function import.import_capital_one_savings_cleaned_by_date() {
+    local -r date="${1}"
+
+    local cleaned_csv_file
+    if ! cleaned_csv_file=$(financial.capital_one_savings_cleaned_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Cleaned CSV file for Capital One Savings doesn't exist for ${date}."
+    fi
+    readonly cleaned_csv_file
+
+    local ledger_output_file
+    if ! ledger_output_file=$(allow_missing_file=true import.capital_one_savings_imports_ledger_postings_file_by_date "${date}"); then
+        mycmd.err_exit 1 "Error getting ledger outputs file name for Capital One Savings for date ${date}."
+    fi
+    readonly ledger_output_file
+
+    import.import_capital_one_savings "${cleaned_csv_file}" "${ledger_output_file}"
 }
 
 mycmd.trace "The Financal Data Import library has been sourced."

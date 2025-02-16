@@ -15,4 +15,5 @@
     (:prefix ("i" . "Import CSVs")
      :desc "Capital One Checking" "c" #'tbh/import-capital-one-checking-csv
      :desc "Capital One Money Market" "m" #'tbh/import-capital-one-money-market-csv
+     :desc "Capital One Savings" "s" #'tbh/import-capital-one-savings-csv
      :desc "Chase Visa" "v" #'tbh/import-chase-visa-csv))))

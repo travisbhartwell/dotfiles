@@ -1,0 +1,141 @@
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+(return 0 >/dev/null 2>&1) || {
+    echo >&2 "$0 is a library only meant to be sourced."
+    exit 1
+}
+
+mycmd:command_group.register_version "1.0"
+mycmd:command_group.register_short_description "financial data file listing tools"
+
+[[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
+
+[[ -n "${_MYCMD_FINANCIAL_LIST_LIB:-}" ]] && return
+readonly _MYCMD_FINANCIAL_LIST_LIB=1
+
+function financial._list_csvs() {
+    local account="${1}"
+
+    local i
+    local date
+
+    for i in *.csv; do
+        date="$(basename "${i}" .csv)"
+        echo "${account} ${date}"
+    done | sort -u
+}
+
+function financial.list_source_csvs_by_date() {
+    # TODO: Validate parameters
+    local -r account="${1}"
+
+    # shellcheck disable=SC2154
+    local -r csv_dir="${FINANCIAL_ORIGINAL_CSV_BASE_DIR}/${account}"
+
+    if [[ ! -d "${csv_dir}" ]]; then
+        mycmd.debug "Directory '${csv_dir}' does not exist."
+        return 1
+    fi
+
+    pushd "${csv_dir}" &>/dev/null || return
+
+    mycmd.nullglob_set_wrapper financial._list_csvs "${account}"
+
+    popd &>/dev/null || return
+}
+
+function financial.list_capital_one_checking_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}"
+}
+
+function financial.list_capital_one_money_market_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}"
+}
+
+function financial.list_capital_one_savings_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}"
+}
+
+function financial.list_chase_visa_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_source_csvs_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
+}
+
+function financial._list_statements_callback() {
+    local year="${1}"
+
+    if [[ -z "${year-}" ]]; then
+        return
+    fi
+    year="${year##*/}"
+
+    local -n files_ref="${4}"
+    local f
+    local date
+
+    for f in "${files_ref[@]}"; do
+        f="$(basename "${f}")"
+
+        if [[ "${f}" = "${year}"-* ]]; then
+            date="$(basename "${f}" ".pdf")"
+            statements+=("${date}")
+        fi
+    done
+}
+
+function financial.list_statements_by_date() {
+    # TODO: Validate parameters
+    local -r account="${1}"
+
+    # shellcheck disable=SC2154
+    local -r statement_dir="${FINANCIAL_BASE_STATEMENT_DIR}/${account}"
+
+    if [[ ! -d "${statement_dir}" ]]; then
+        mycmd.debug "Directory '${statement_dir}' does not exist."
+        return 1
+    fi
+
+    declare -agx statements=()
+
+    mycmd._walk_path_for_directory "${statement_dir}" \
+        "" \
+        financial._list_statements_callback \
+        "${account}"
+
+    local -a sorted_statements=()
+    readarray -t sorted_statements < \
+        <(printf "%s\n" "${statements[@]}" | LC_ALL=en_US.UTF-8 sort || true)
+
+    local statement
+    for statement in "${sorted_statements[@]}"; do
+        mycmd.output "${account}" "${statement}"
+    done
+
+    unset statements
+}
+
+function financial.list_capital_one_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_statements_by_date "${FINANCIAL_CAPITAL_ONE}"
+}
+
+function financial.list_charles_schwab_investment_account_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_statements_by_date "${FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT}"
+}
+
+function financial.list_charles_schwab_rollover_ira_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_statements_by_date "${FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA}"
+}
+
+function financial.list_chase_visa_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_statements_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
+}
+
+mycmd.trace "The Financal List library has been sourced."

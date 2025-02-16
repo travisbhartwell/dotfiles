@@ -17,6 +17,28 @@ readonly _MYCMD_FINANCIAL_DATA_CLEANING_LIB=1
 # Common tool required for everything in this module
 mycmd.defer_at_startup mycmd.init_bin datacleanup
 
+function data_cleaning.clean_capitalone_checking_csv() {
+    local date="$1"
+
+    local source_file
+    if ! source_file=$(financial.capital_one_checking_original_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Cannot find original CSV for Capital One Checking for date ${date}."
+    fi
+    readonly source_file
+
+    local destination_file
+    if ! destination_file=$(allow_missing_file=true financial.capital_one_checking_cleaned_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Error getting claened file name for Capital One Checking for date ${date}."
+    fi
+    readonly destination_file
+
+    mycmd.trace "Cleaning Capital One Checking CSV for date '${date}':\
+        Source File: ${source_file}\
+        Destination File: ${destination_file}."
+
+    mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
+}
+
 function data_cleaning.clean_capitalone_money_market_csv() {
     local date="$1"
 
@@ -39,22 +61,22 @@ function data_cleaning.clean_capitalone_money_market_csv() {
     mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
 }
 
-function data_cleaning.clean_capitalone_checking_csv() {
+function data_cleaning.clean_capitalone_savings_csv() {
     local date="$1"
 
     local source_file
-    if ! source_file=$(financial.capital_one_checking_original_csv_by_date "${date}"); then
-        mycmd.err_exit 1 "Cannot find original CSV for Capital One Checking for date ${date}."
+    if ! source_file=$(financial.capital_one_savings_original_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Cannot find original CSV for Capital One Savings for date ${date}."
     fi
     readonly source_file
 
     local destination_file
-    if ! destination_file=$(allow_missing_file=true financial.capital_one_checking_cleaned_csv_by_date "${date}"); then
-        mycmd.err_exit 1 "Error getting claened file name for Capital One Checking for date ${date}."
+    if ! destination_file=$(allow_missing_file=true financial.capital_one_savings_cleaned_csv_by_date "${date}"); then
+        mycmd.err_exit 1 "Error getting claened file name for Capital One Savings for date ${date}."
     fi
     readonly destination_file
 
-    mycmd.trace "Cleaning Capital One Checking CSV for date '${date}':\
+    mycmd.trace "Cleaning Capital One Savings CSV for date '${date}':\
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
