@@ -1,0 +1,51 @@
+#!/usr/bin/env -S mycmd
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+set -o nounset -o errexit -o errtrace -o pipefail
+
+mycmd:command.register_version "1.0"
+mycmd:command.register_short_description "open Amazon invoices from Chase Visa statement"
+
+mycmd:command.register_help_text "This will open the Amazon invoices listed on the specified Chase Visa statement..\n"
+# shellcheck disable=SC2154
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} <year-month>"
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -h | --help"
+mycmd:command.register_help_text "${_MYCMD_NAMESPACED_PARTS_STRING} -v | --version"
+mycmd:command.register_help_text "Options:"
+mycmd:command.register_help_text "\t-h | --help    - Show this help"
+mycmd:command.register_help_text "\t-v | --version - Show this command's version"
+
+[[ -n "${_MYCMD_SOURCING_FOR_HELP:-}" ]] && return
+
+function open-amazon-invoice() {
+    local -r order_id="${1}"
+
+    open "https://www.amazon.com/gp/css/summary/print.html/ref=ppx_yo_dt_b_invoice_o00?ie=UTF8&orderID=${order_id}"
+}
+
+mycmd.defer_at_startup mycmd.init_bin pdftotext
+function open-amazon-orders-from-statement() {
+    local -r statement_pdf="${1}"
+
+    local order_id
+
+    mycmd.bin_execute pdftotext "${statement_pdf}" - | grep -E '\d{3}-\d{7}-\d{7}' | sort -u | while read -r order_id; do
+        open-amazon-invoice "${order_id}"
+    done
+}
+
+# shellcheck disable=SC2154
+function mycmd.main() {
+    if (($# < 1)); then
+        # shellcheck disable=SC2154
+        mycmd:command.print_help_by_name "${_MYCMD_FULLY_QUALIFIED_NAME}"
+    fi
+
+    local -r date="${1}"
+    local statement
+    statement=$(financial.chase_visa_statement_by_date "${date}")
+    readonly statement
+
+    open-amazon-orders-from-statement "${statement}"
+}

@@ -29,10 +29,14 @@ project.register_task_with_fileset lint-all-bash-scripts project:shell.lint ALL_
 project.register_fileset ALL_COMMAND_GROUPS
 project.find_files_for_fileset ALL_COMMAND_GROUPS "${MYCMD_DIR}" -name "*-lib" -type f
 project.register_task_with_fileset list-all-command-groups project.list-files ALL_COMMAND_GROUPS
+project.register_task_with_fileset format-all-command-groups project:shell.format ALL_COMMAND_GROUPS
+project.register_task_with_fileset lint-all-command-groups project:shell.lint ALL_COMMAND_GROUPS
 
 project.register_fileset ALL_COMMANDS
 project.find_files_for_fileset ALL_COMMANDS "${MYCMD_DIR}" -type f ! -name "*-lib"
 project.register_task_with_fileset list-all-commands project.list-files ALL_COMMANDS
+project.register_task_with_fileset format-all-commands project:shell.format ALL_COMMANDS
+project.register_task_with_fileset lint-all-commands project:shell.lint ALL_COMMANDS
 
 mycmd.defer_at_startup mycmd.init_bin chezmoi
 

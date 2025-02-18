@@ -50,7 +50,6 @@ export FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT
 
 readonly FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA="${FINANCIAL_CHARLES_SCHWAB}/rollover-ira"
 export FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA
-
 # Common Variables -- Statements
 readonly FINANCIAL_BASE_STATEMENT_DIR="${HOME}/Google Drive/My Drive/Financial/documents"
 export FINANCIAL_BASE_STATEMENT_DIR
@@ -142,7 +141,7 @@ function financial._statement_by_date() {
     local -r account="${1}"
     local -r date="${2}"
     local -r year="${date%%-*}"
-    
+
     financial._resolve_file "${FINANCIAL_BASE_STATEMENT_DIR}" "${account}" "${year}/${date}.pdf"
 }
 
@@ -168,6 +167,36 @@ function financial.charles_schwab_rollover_ira_statement_by_date() {
     local -r date="${1}"
 
     financial._statement_by_date "${FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA}" "${date}"
+}
+
+function financial.next_date() {
+    local -r current_date="${1}"
+
+    local -r year="${current_date%%-*}"
+    local -r month="${current_date##*-}"
+
+    local next_year="${year}"
+    local next_month
+
+    if [[ "${month}" = "09" ]]; then
+        next_month="10"
+    elif [[ "${month}" = 0* ]]; then
+        local single_digit="${month##0}"
+        local next_single_digit
+        ((next_single_digit = single_digit + 1))
+        next_month="0${next_single_digit}"
+    elif [[ "${month}" = "12" ]]; then
+        next_month="01"
+        ((next_year = year + 1))
+    else
+        ((next_month = month + 1))
+    fi
+
+    echo "${next_year}-${next_month}"
+}
+
+function financial.current_month() {
+    date +"%Y-%m"
 }
 
 mycmd.trace "The Financial library has been sourced."
