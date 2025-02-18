@@ -21,9 +21,12 @@
     (s-lines output)))
 
 ;;;###autoload
+(defun tbh/mycmd-project-run (task)
+  (let ((cmd-line (s-join " " `("mycmd" "project" "run" ,task))))
+    (compile cmd-line)))
+
+;;;###autoload
 (defun tbh/mycmd-project-run-task ()
   (interactive)
-  (-let*
-      ((task (completing-read "Select Project Task to Run: " (tbh/mycmd-project-tasks) nil t nil nil))
-       (cmd-line (s-join " " `("mycmd" "project" "run" ,task))))
-    (compile cmd-line)))
+  (let ((task (completing-read "Select Project Task to Run: " (tbh/mycmd-project-tasks) nil t nil nil)))
+    (tbh/mycmd-project-run task)))
