@@ -100,3 +100,7 @@
       (goto-char (point-min))
       (let ((say-command-line (s-join " " `("say" "-f" ,(buffer-file-name)))))
         (start-process-shell-command "*proofreading with say*" nil say-command-line))))
+
+(map!
+ :leader
+ :desc "Run MyProject Task" "p m" #'tbh/mycmd-project-run-task-compilation)

@@ -6,4 +6,3 @@
 install location.")
 
 (use-package! s)
-

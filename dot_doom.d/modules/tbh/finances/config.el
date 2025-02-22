@@ -30,3 +30,15 @@
      :desc "Charles Schwab Investment" "i" #'tbh/open-charles-schwab-investment-statement
      :desc "Charles Schwab Rollover IRA" "r" #'tbh/open-charles-schwab-rollover-ira-statement
      :desc "Chase Visa" "v" #'tbh/open-chase-visa-statement))))
+
+(after! git-commit
+  (map!
+   (:localleader
+    :map git-commit-mode-map
+    (:prefix ("f" . "Account Finished")
+     :desc "Capital One Checking" "c" #'tbh/insert-checking-finished-line
+     :desc "Capital One Money Market" "m" #'tbh/insert-money-market-finished-line
+     :desc "Capital One Savings" "s" #'tbh/insert-savings-finished-line
+     :desc "Charles Schwab Investment" "i" #'tbh/insert-investment-finished-line
+     :desc "Charles Schwab Rollover IRA" "r" #'tbh/insert-rollover-ira-finished-line
+     :desc "Chase Visa" "v" #'tbh/insert-visa-finished-line))))
