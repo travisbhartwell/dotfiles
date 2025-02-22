@@ -195,8 +195,4 @@ function financial.next_date() {
     echo "${next_year}-${next_month}"
 }
 
-function financial.current_month() {
-    date +"%Y-%m"
-}
-
 mycmd.trace "The Financial library has been sourced."

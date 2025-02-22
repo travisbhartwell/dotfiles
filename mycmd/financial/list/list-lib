@@ -45,9 +45,61 @@ function financial.list_source_csvs_by_date() {
     popd &>/dev/null || return
 }
 
+function financial.print_missing() {
+    local -r account="${1}"
+    local -r most_recent="${2}"
+
+    local month="${most_recent}"
+    local current_month
+    if ! current_month="$(date +"%Y-%m")"; then
+        mycmd.debug "Error getting current month"
+        return 1
+    fi
+
+    mycmd.trace "Checking account '${account}' with most recent '${most_recent}' and current months as '${current_month}'."
+
+    if [[ "${month}" = "${current_month}" ]]; then
+        return 0
+    fi
+
+    while true; do
+        month="$(financial.next_date "${month}")"
+
+        if [[ "${month}" = "${current_month}" ]]; then
+            break
+        fi
+
+        mycmd.output "${account} ${month}"
+    done
+}
+
+function financial.list_missing_source_csvs_by_date() {
+    local -r account="${1}"
+
+    local -a source_csvs=()
+    readarray -t source_csvs < \
+        <(financial.list_source_csvs_by_date "${account}" || true)
+
+    if (("${#source_csvs[@]}" == 0)); then
+        mycmd.log "No source csvs found for account '${account}'."
+        return 1
+    fi
+
+    local last_index
+    ((last_index = "${#source_csvs[@]}" - 1))
+    local most_recent="${source_csvs["${last_index}"]##* }"
+
+    financial.print_missing "${account}" "${most_recent}"
+}
+
 function financial.list_capital_one_checking_source_csvs_by_date() {
     # shellcheck disable=SC2154
     financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}"
+}
+
+function financial.list_missing_capital_one_checking_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}"
 }
 
 function financial.list_capital_one_money_market_source_csvs_by_date() {
@@ -55,14 +107,29 @@ function financial.list_capital_one_money_market_source_csvs_by_date() {
     financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}"
 }
 
+function financial.list_missing_capital_one_money_market_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}"
+}
+
 function financial.list_capital_one_savings_source_csvs_by_date() {
     # shellcheck disable=SC2154
     financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}"
 }
 
+function financial.list_missing_capital_one_savings_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}"
+}
+
 function financial.list_chase_visa_source_csvs_by_date() {
     # shellcheck disable=SC2154
     financial.list_source_csvs_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
+}
+
+function financial.list_missing_chase_visa_source_csvs_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_source_csvs_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
 }
 
 function financial._list_statements_callback() {
@@ -82,13 +149,12 @@ function financial._list_statements_callback() {
 
         if [[ "${f}" = "${year}"-* ]]; then
             date="$(basename "${f}" ".pdf")"
-            statements+=("${date}")
+            found_statements+=("${date}")
         fi
     done
 }
 
-function financial.list_statements_by_date() {
-    # TODO: Validate parameters
+function financial._get_statements_by_date() {
     local -r account="${1}"
 
     # shellcheck disable=SC2154
@@ -99,23 +165,58 @@ function financial.list_statements_by_date() {
         return 1
     fi
 
-    declare -agx statements=()
+    declare -agx found_statements=()
 
     mycmd._walk_path_for_directory "${statement_dir}" \
         "" \
         financial._list_statements_callback \
         "${account}"
 
-    local -a sorted_statements=()
+    local -n sorted_statements="${2}"
+
+    # shellcheck disable=SC2034
     readarray -t sorted_statements < \
-        <(printf "%s\n" "${statements[@]}" | LC_ALL=en_US.UTF-8 sort || true)
+        <(printf "%s\n" "${found_statements[@]}" | LC_ALL=en_US.UTF-8 sort || true)
+
+    mycmd.trace "Found ${#sorted_statements[@]} statements."
+
+    unset found_statements
+}
+
+function financial.list_statements_by_date() {
+    local -r account="${1}"
+    local -a statements=()
+
+    if ! financial._get_statements_by_date "${account}" statements; then
+        return 1
+    fi
+
+    mycmd.trace "Found ${#statements[@]} statements back in list_statements_by_date."
 
     local statement
-    for statement in "${sorted_statements[@]}"; do
+    for statement in "${statements[@]}"; do
         mycmd.output "${account}" "${statement}"
     done
+}
 
-    unset statements
+function financial.list_missing_statements_by_date() {
+    local -r account="${1}"
+
+    local -a statements=()
+
+    if ! financial._get_statements_by_date "${account}" statements; then
+        return 1
+    fi
+
+    if (("${#statements[@]}" == 0)); then
+        mycmd.log "No statements found for account '${account}'."
+        return 1
+    fi
+
+    local last_index
+    ((last_index = "${#statements[@]}" - 1))
+
+    financial.print_missing "${account}" "${statements["${last_index}"]}"
 }
 
 function financial.list_capital_one_statements_by_date() {
@@ -123,9 +224,19 @@ function financial.list_capital_one_statements_by_date() {
     financial.list_statements_by_date "${FINANCIAL_CAPITAL_ONE}"
 }
 
+function financial.list_missing_capital_one_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_statements_by_date "${FINANCIAL_CAPITAL_ONE}"
+}
+
 function financial.list_charles_schwab_investment_account_statements_by_date() {
     # shellcheck disable=SC2154
     financial.list_statements_by_date "${FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT}"
+}
+
+function financial.list_missing_charles_schwab_investment_account_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_statements_by_date "${FINANCIAL_CHARLES_SCHWAB_INVESTMENT_ACCOUNT}"
 }
 
 function financial.list_charles_schwab_rollover_ira_statements_by_date() {
@@ -133,9 +244,19 @@ function financial.list_charles_schwab_rollover_ira_statements_by_date() {
     financial.list_statements_by_date "${FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA}"
 }
 
+function financial.list_missing_charles_schwab_rollover_ira_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_statements_by_date "${FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA}"
+}
+
 function financial.list_chase_visa_statements_by_date() {
     # shellcheck disable=SC2154
     financial.list_statements_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
+}
+
+function financial.list_missing_chase_visa_statements_by_date() {
+    # shellcheck disable=SC2154
+    financial.list_missing_statements_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}"
 }
 
 mycmd.trace "The Financal List library has been sourced."
