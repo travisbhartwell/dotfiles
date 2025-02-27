@@ -26,9 +26,14 @@
   (tbh/mycmd-project-run-compilation "check-schwab-investment-cleared"))
 
 ;;;###autoload
-(defun tbh/check-schwab-rollover-ira-cleared ()
+(defun tbh/check-schwab-rollover-ira-bank-cleared ()
   (interactive)
-  (tbh/mycmd-project-run-compilation "check-schwab-rollover-ira-cleared"))
+  (tbh/mycmd-project-run-compilation "check-schwab-rollover-ira-bank-cleared"))
+
+;;;###autoload
+(defun tbh/check-schwab-rollover-ira-investment-cleared ()
+  (interactive)
+  (tbh/mycmd-project-run-compilation "check-schwab-rollover-ira-investment-cleared"))
 
 ;;;###autoload
 (defun tbh/check-visa-cleared ()

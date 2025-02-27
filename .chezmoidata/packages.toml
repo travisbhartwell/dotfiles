@@ -40,6 +40,7 @@ brews = [
   "go",
   "go-critic",
   "golangci-lint",
+  "gpg",
   "graphviz",
   "grep",
   "grip",
@@ -83,6 +84,7 @@ brews = [
   "wordnet",
   "xsv",
   "yj",
+  "yt-dlp",
   "zellij",
   "zig"
 ]
@@ -116,6 +118,7 @@ casks = [
   "tabula",
   "visual-studio-code@insiders",
   "vivaldi",
+  "vlc",
   "webcatalog",
   "zed",
   "zoom"
@@ -128,9 +131,10 @@ args = [
   "with-modern-icon-bokehlicia-captiva",
   "with-native-comp",
   "with-native-full-aot",
+  "with-poll",
   "with-tree-sitter"
 ]
-name = "daviderestivo/emacs-head/emacs-head@29"
+name = "daviderestivo/emacs-head/emacs-head@30"
 
 [[packages.darwin.brews_with_args]]
 args = ["HEAD"]

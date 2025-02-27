@@ -1,9 +1,5 @@
 [tools]
-bitwarden = '2024.11.1'
-deno = '2.0.0'
-erlang = '26.2'
-gleam = '1.0'
-node = '20'
+deno = "2.2.2"
+node = "23"
 pipx = 'latest'
-python = ['3.12', '3.11']
-rebar = '3.22.1'
+python = '3.13'
