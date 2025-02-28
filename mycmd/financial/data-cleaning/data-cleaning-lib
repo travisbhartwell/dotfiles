@@ -36,7 +36,7 @@ function data_cleaning.clean_capitalone_checking_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
+    mycmd.bin_execute datacleanup capital-one "${source_file}" "${destination_file}"
 }
 
 function data_cleaning.clean_capitalone_money_market_csv() {
@@ -58,7 +58,7 @@ function data_cleaning.clean_capitalone_money_market_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
+    mycmd.bin_execute datacleanup capital-one "${source_file}" "${destination_file}"
 }
 
 function data_cleaning.clean_capitalone_savings_csv() {
@@ -80,12 +80,11 @@ function data_cleaning.clean_capitalone_savings_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    mycmd.bin_execute datacleanup capital-one --input-file-path "${source_file}" --output-file-path "${destination_file}"
+    mycmd.bin_execute datacleanup capital-one "${source_file}" "${destination_file}"
 }
 
 function data_cleaning.clean_chase_visa_csv() {
     local date="$1"
-    IFS="-" read -r year month _day <<<"${date}"
 
     local source_file
     if ! source_file=$(financial.chase_visa_original_csv_by_date "${date}"); then
@@ -103,11 +102,7 @@ function data_cleaning.clean_chase_visa_csv() {
         Source File: ${source_file}\
         Destination File: ${destination_file}."
 
-    if [[ "${month}" = "01" ]]; then
-        mycmd.bin_execute datacleanup chase-visa --input-file-path "${source_file}" --output-file-path "${destination_file}" --year "${year}" "--january-statement"
-    else
-        mycmd.bin_execute datacleanup chase-visa --input-file-path "${source_file}" --output-file-path "${destination_file}" --year "${year}"
-    fi
+    mycmd.bin_execute datacleanup chase-visa "${source_file}" "${destination_file}"
 }
 
 mycmd.trace "The Financal Data Cleaning library has been sourced."

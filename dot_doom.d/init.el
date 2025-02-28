@@ -28,7 +28,7 @@
        (evil +everywhere)
        file-templates
        fold
-       (format +onsave +lsp)
+       (format +onsave)
        snippets
        word-wrap
 
