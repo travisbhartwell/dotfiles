@@ -102,16 +102,6 @@ function financial.list_missing_capital_one_checking_source_csvs_by_date() {
     financial.list_missing_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}"
 }
 
-function financial.list_capital_one_money_market_source_csvs_by_date() {
-    # shellcheck disable=SC2154
-    financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}"
-}
-
-function financial.list_missing_capital_one_money_market_source_csvs_by_date() {
-    # shellcheck disable=SC2154
-    financial.list_missing_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}"
-}
-
 function financial.list_capital_one_savings_source_csvs_by_date() {
     # shellcheck disable=SC2154
     financial.list_source_csvs_by_date "${FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT}"

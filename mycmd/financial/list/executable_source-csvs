@@ -24,7 +24,6 @@ function mycmd.main() {
         mycmd.trace "Listing all CSVs"
 
         financial.list_capital_one_checking_source_csvs_by_date
-        financial.list_capital_one_money_market_source_csvs_by_date
         financial.list_capital_one_savings_source_csvs_by_date
         financial.list_chase_visa_source_csvs_by_date
     fi

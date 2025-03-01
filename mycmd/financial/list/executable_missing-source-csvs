@@ -24,7 +24,6 @@ function mycmd.main() {
         mycmd.trace "Listing all missing CSVs"
 
         financial.list_missing_capital_one_checking_source_csvs_by_date
-        financial.list_missing_capital_one_money_market_source_csvs_by_date
         financial.list_missing_capital_one_savings_source_csvs_by_date
         financial.list_missing_chase_visa_source_csvs_by_date
     fi

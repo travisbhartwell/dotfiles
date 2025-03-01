@@ -33,9 +33,6 @@ readonly FINANCIAL_CAPITAL_ONE="capital-one"
 readonly FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT="${FINANCIAL_CAPITAL_ONE}/checking"
 export FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT
 
-readonly FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT="${FINANCIAL_CAPITAL_ONE}/money-market"
-export FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT
-
 readonly FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT="${FINANCIAL_CAPITAL_ONE}/savings"
 export FINANCIAL_CAPITAL_ONE_SAVINGS_ACCOUNT
 
@@ -91,12 +88,6 @@ function financial.capital_one_checking_original_csv_by_date() {
     financial._originaL_csv_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}" "${date}"
 }
 
-function financial.capital_one_money_market_original_csv_by_date() {
-    local -r date="${1}"
-
-    financial._originaL_csv_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}" "${date}"
-}
-
 function financial.capital_one_savings_original_csv_by_date() {
     local -r date="${1}"
 
@@ -117,12 +108,6 @@ function financial.capital_one_checking_cleaned_csv_by_date() {
     local -r date="${1}"
 
     financial._cleaned_csv_by_date "${FINANCIAL_CAPITAL_ONE_CHECKING_ACCOUNT}" "${date}"
-}
-
-function financial.capital_one_money_market_cleaned_csv_by_date() {
-    local -r date="${1}"
-
-    financial._cleaned_csv_by_date "${FINANCIAL_CAPITAL_ONE_MONEY_MARKET_ACCOUNT}" "${date}"
 }
 
 function financial.capital_one_savings_cleaned_csv_by_date() {

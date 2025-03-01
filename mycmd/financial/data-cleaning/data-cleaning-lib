@@ -39,28 +39,6 @@ function data_cleaning.clean_capitalone_checking_csv() {
     mycmd.bin_execute datacleanup capital-one "${source_file}" "${destination_file}"
 }
 
-function data_cleaning.clean_capitalone_money_market_csv() {
-    local date="$1"
-
-    local source_file
-    if ! source_file=$(financial.capital_one_money_market_original_csv_by_date "${date}"); then
-        mycmd.err_exit 1 "Cannot find original CSV for Capital One Money Market for date ${date}."
-    fi
-    readonly source_file
-
-    local destination_file
-    if ! destination_file=$(allow_missing_file=true financial.capital_one_money_market_cleaned_csv_by_date "${date}"); then
-        mycmd.err_exit 1 "Error getting claened file name for Capital One Money Market for date ${date}."
-    fi
-    readonly destination_file
-
-    mycmd.trace "Cleaning Capital One Money Market CSV for date '${date}':\
-        Source File: ${source_file}\
-        Destination File: ${destination_file}."
-
-    mycmd.bin_execute datacleanup capital-one "${source_file}" "${destination_file}"
-}
-
 function data_cleaning.clean_capitalone_savings_csv() {
     local date="$1"
 

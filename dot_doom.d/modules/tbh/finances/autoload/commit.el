@@ -13,11 +13,6 @@
   (tbh/insert-account-finished-line "Capital One 360 Checking"))
 
 ;;;###autoload
-(defun tbh/insert-money-market-finished-line ()
-  (interactive)
-  (tbh/insert-account-finished-line "Capital One 360 Money Market"))
-
-;;;###autoload
 (defun tbh/insert-savings-finished-line ()
   (interactive)
   (tbh/insert-account-finished-line "Capital One 360 Performance Savings"))

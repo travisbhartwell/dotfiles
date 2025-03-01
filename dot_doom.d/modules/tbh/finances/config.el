@@ -15,7 +15,6 @@
     (:prefix ("c" . "Cleared Balance")
              (:prefix ("c" . "Capital One")
               :desc "Checking" "c" #'tbh/check-capital-one-checking-cleared
-              :desc "Money Market" "m" #'tbh/check-capital-one-money-market-cleared
               :desc "Savings" "s" #'tbh/check-capital-one-savings-cleared)
              (:prefix ("i" . "Charles Schwab Investments")
               :desc "Bank" "b" #'tbh/check-schwab-bank-cleared
@@ -26,7 +25,6 @@
              :desc "Chase Visa" "v" #'tbh/check-visa-cleared)
     (:prefix ("i" . "Import CSVs")
      :desc "Capital One Checking" "c" #'tbh/import-capital-one-checking-csv
-     :desc "Capital One Money Market" "m" #'tbh/import-capital-one-money-market-csv
      :desc "Capital One Savings" "s" #'tbh/import-capital-one-savings-csv
      :desc "Chase Visa" "v" #'tbh/import-chase-visa-csv)
     (:prefix ("o" . "Open Statements")
@@ -41,7 +39,6 @@
     :map git-commit-mode-map
     (:prefix ("f" . "Account Finished")
      :desc "Capital One Checking" "c" #'tbh/insert-checking-finished-line
-     :desc "Capital One Money Market" "m" #'tbh/insert-money-market-finished-line
      :desc "Capital One Savings" "s" #'tbh/insert-savings-finished-line
      :desc "Charles Schwab Investment" "i" #'tbh/insert-investment-finished-line
      :desc "Charles Schwab Rollover IRA" "r" #'tbh/insert-rollover-ira-finished-line

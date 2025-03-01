@@ -54,11 +54,6 @@
   (tbh/import-csv arg "capital-one/checking" "capital-one-checking"))
 
 ;;;###autoload
-(defun tbh/import-capital-one-money-market-csv (arg)
-  (interactive "P")
-  (tbh/import-csv arg "capital-one/money-market" "capital-one-money-market"))
-
-;;;###autoload
 (defun tbh/import-capital-one-savings-csv (arg)
   (interactive "P")
   (tbh/import-csv arg "capital-one/savings" "capital-one-savings"))
