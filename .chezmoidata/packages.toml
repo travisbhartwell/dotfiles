@@ -110,6 +110,7 @@ casks = [
   "keyclu",
   "loupedeck",
   "mysides",
+  "obsidian",
   "openmtp",
   "raycast",
   "signal",

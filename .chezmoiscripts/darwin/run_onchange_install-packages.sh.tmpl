@@ -1,12 +1,14 @@
+{{ if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env bash
 # -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
 # shellcheck shell=bash
 
-if ! command -v brew > /dev/null 2>&1; then
+if ! command -v brew >/dev/null 2>&1; then
     echo >&2 "Homebrew is missing!"
     exit 1
 fi
 
-brew bundle --no-lock --file=/dev/stdin <<EOF
+brew bundle --file=/dev/stdin <<EOF
 {{ template "Brewfile" . -}}
 EOF
+{{ end -}}
