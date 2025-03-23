@@ -5,8 +5,6 @@ taps = [
   "daviderestivo/emacs-head",
   "dbcli/tap",
   "homebrew/bundle",
-  "homebrew/cask-fonts",
-  "homebrew/cask-versions",
   "homebrew/services",
   "saulpw/vd"
 ]
@@ -47,6 +45,7 @@ brews = [
   "gum",
   "gyb",
   "hatch",
+  "hledger",
   "htmlq",
   "hyperfine",
   "imagemagick",
@@ -77,6 +76,7 @@ brews = [
   "shellcheck",
   "shfmt",
   "sleek",
+  "superfile",
   "symlinks",
   "tmux",
   "tree-sitter",
@@ -112,6 +112,7 @@ casks = [
   "mysides",
   "obsidian",
   "openmtp",
+  "orbstack",
   "raycast",
   "signal",
   "spotify",

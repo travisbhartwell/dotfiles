@@ -100,3 +100,10 @@ typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/Library/Caches/zsh"
 typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/.cache/zsh"
 {{ end -}}
 mkdir -p "${_TBH_ZSH_CACHE_DIR}"
+
+# Configure Orbstack
+{{ if eq .chezmoi.os "darwin" -}}
+if [[ -e "$HOME/.orbstack/shell/init.zsh" ]]; then
+    source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null
+fi
+{{ end -}}

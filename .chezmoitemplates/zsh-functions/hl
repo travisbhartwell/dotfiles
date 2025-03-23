@@ -1,0 +1,5 @@
+# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+# Borrowed from You Suck at Programming: https://www.youtube.com/shorts/I2oCGvdOPxk
+
+rg --passthru "${@}"
