@@ -127,6 +127,13 @@ if [[ -v _TBH_ZSH_CACHE_DIR ]]; then
 fi
 
 # ------------------------------------------------------------------------------
+# Aliases
+{{ if eq .chezmoi.os "darwin" -}}
+alias strip-ansi="gsed 's/\x1b\[[0-9;]*m//g'"
+{{ else }}
+alias strip-ansi="sed 's/\x1b\[[0-9;]*m//g'"
+{{ end }}
+# ------------------------------------------------------------------------------
 # AutoSuggestions Plugin
 # https://github.com/zsh-users/zsh-autosuggestions
 _tbh_load_zsh_plugin_if_exists zsh-autosuggestions

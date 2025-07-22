@@ -49,7 +49,7 @@
        (eval +overlay)
        (lookup +dictionary +docsets +offline)
        (lsp +peek)
-       (magit +forge)
+       magit
        make
        tmux
        tree-sitter
@@ -71,7 +71,7 @@
        (lua +fennel +lsp +tree-sitter)
        (markdown +grip)
        (nix +lsp +tree-sitter)
-       (org +journal +pandoc +pretty +roam2)
+       (org +journal +pandoc +roam2)
        (python +lsp +pyright +pyenv +poetry +tree-sitter)
        (rust +lsp +tree-sitter)
        (sh +lsp +tree-sitter)

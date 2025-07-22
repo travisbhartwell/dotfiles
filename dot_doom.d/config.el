@@ -10,6 +10,9 @@
        (seq-find #'doom-font-exists-p ["Monaspace Krypton" "SauceCodePro NF"])))
   (setq doom-font (font-spec :family tbh-font-family :size 16)))
 
+(if (featurep :system 'macos)
+    (setq magit-git-executable "/opt/homebrew/bin/git"))
+
 (use-package! ef-themes
   :init
   (setq
