@@ -1,0 +1,7 @@
+# -*- mode: shell-script; sh-shell: zsh; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+
+if git rev-parse HEAD &> /dev/null; then
+    cd "$(git rev-parse --show-toplevel)"
+else
+    echo >2 "Not in a project."
+fi
