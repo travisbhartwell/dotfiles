@@ -1,0 +1,82 @@
+#!/usr/bin/env -S mycmd myproject run
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+set -o nounset -o errexit -o errtrace -o pipefail
+
+myproject.register_task_definition_file_description "My dotfiles used across Mac OS and Linux"
+
+# --------------------------------------------------------------------------------------------------
+# Project-Wide Variables
+
+mycmd.trace "The following variables set by MyProject are used in the main task definition file:"
+# shellcheck disable=SC2154
+mycmd.trace "- MYPROJECT_ROOT_DIRECTORY:            ${MYPROJECT_ROOT_DIRECTORY}"
+# shellcheck disable=SC2154
+mycmd.trace "- MYPROJECT_TASK_DEFINITION_DIRECTORY: ${MYPROJECT_TASK_DEFINITION_DIRECTORY}"
+
+readonly MYCMD_DIR="${MYPROJECT_ROOT_DIRECTORY}/mycmd"
+readonly BOOTSTRAP_DIR="${MYPROJECT_ROOT_DIRECTORY}/bootstrap"
+readonly TEMPLATE_DIR="${MYPROJECT_ROOT_DIRECTORY}/.chezmoitemplates"
+readonly DATA_DIR="${MYPROJECT_ROOT_DIRECTORY}/.chezmoidata"
+
+mycmd.trace "Set the following variables:"
+mycmd.trace "- BOOTSTRAP_DIR: ${BOOTSTRAP_DIR}"
+mycmd.trace "- DATA_DIR:      ${DATA_DIR}"
+mycmd.trace "- MYCMD_DIR:     ${MYCMD_DIR}"
+mycmd.trace "- TEMPLATE_DIR:  ${TEMPLATE_DIR}"
+
+# --------------------------------------------------------------------------------------------------
+# Project File Sets
+
+# All Files
+myproject.register_fileset ALL_FILES
+myproject.find_and_add_files_to_fileset ALL_FILES "${MYPROJECT_ROOT_DIRECTORY}" -path "${MYPROJECT_ROOT_DIRECTORY}/.git" -prune -o -type f
+
+# Task Definition Files
+myproject.register_fileset TASK_DEFINITION_FILES
+myproject.add_files_to_fileset TASK_DEFINITION_FILES "${MYPROJECT_TASK_DEFINITION_DIRECTORY}"/*
+
+# All Bash Scripts
+myproject.register_fileset ALL_BASH_SCRIPTS
+myproject.find_and_add_files_to_fileset ALL_BASH_SCRIPTS "${BOOTSTRAP_DIR}" "${MYCMD_DIR}" -type f
+
+# All Command Groups
+myproject.register_fileset ALL_COMMAND_GROUPS
+myproject.find_and_add_files_to_fileset ALL_COMMAND_GROUPS "${MYCMD_DIR}" -name "*-lib" -type f
+
+# All Commands
+myproject.register_fileset ALL_COMMANDS
+myproject.find_and_add_files_to_fileset ALL_COMMANDS "${MYCMD_DIR}" -name "executable_*" -type f
+
+# --------------------------------------------------------------------------------------------------
+# Main Tasks
+
+mycmd.defer_at_startup mycmd.init_bin chezmoi
+
+function format_all() {
+    if mycmd.is_mac_os; then
+        myproject.execute_tasks bash-scripts format \; packages format
+    else
+        myproject.execute_tasks bash-scripts format
+    fi
+}
+
+myproject.register_task format-all format_all
+myproject.register_task_description format-all "Format all files in the project."
+
+function apply_changes() {
+    mycmd.bin_execute chezmoi apply -v
+}
+
+myproject.register_task apply-changes apply_changes
+myproject.register_task_description apply-changes "Apply changes from the repository to running system."
+
+function all() {
+    myproject.execute_tasks format-all \; bash-scripts lint \; apply-changes
+}
+
+myproject.register_task all
+myproject.register_task_description all "Execute all build tasks: format, lint, and apply changes."
+
+mycmd.trace "Finished loading the main task definition file."

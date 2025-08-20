@@ -1,0 +1,40 @@
+#!/usr/bin/env -S mycmd myproject run
+# -*- mode: shell-script; sh-shell: bash; sh-basic-offset: 4; sh-indentation: 4; coding: utf-8 -*-
+# shellcheck shell=bash
+
+set -o nounset -o errexit -o errtrace -o pipefail
+
+# --------------------------------------------------------------------------------------------------
+# System Packages related tasks
+myproject.register_task_definition_file_description "Tasks related to system packages for my dot files project"
+
+mycmd.trace "Set the following variables:"
+mycmd.trace "- BOOTSTRAP_DIR: ${BOOTSTRAP_DIR}"
+mycmd.trace "- DATA_DIR:      ${DATA_DIR}"
+mycmd.trace "- MYCMD_DIR:     ${MYCMD_DIR}"
+mycmd.trace "- TEMPLATE_DIR:  ${TEMPLATE_DIR}"
+
+if mycmd.is_mac_os; then
+    mycmd.defer_at_startup mycmd.init_bin brew
+
+    function diff_packages_toml() {
+        # shellcheck disable=SC2312
+        diff \
+            <(mycmd.bin_execute brew bundle dump --force --file=- 2>/dev/null | sort -u) \
+            <(mycmd.bin_execute chezmoi execute-template <"${TEMPLATE_DIR}/Brewfile" | sort -u)
+    }
+
+    myproject.register_task diff-packages-toml diff_packages_toml
+    myproject.register_task_description diff-packages-toml "Diff the packages.toml file against the installed Homebrew packages."
+
+    mycmd.defer_at_startup mycmd.init_bin uvx
+
+    function format_packages_toml() {
+        mycmd.bin_execute uvx toml-sort --all --in-place --sort-first taps,brews,casks "${DATA_DIR}/packages.toml"
+    }
+
+    myproject.register_task format format_packages_toml
+    myproject.register_task_description format "Format the packages.toml file with toml-sort."
+fi
+
+mycmd.trace "Finished loading the packages task definition file."
