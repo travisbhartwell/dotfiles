@@ -49,7 +49,7 @@ _tbh_prepend_dir_to_path "${HOME}/.cabal/bin"
 _tbh_prepend_dir_to_path "${HOME}/.local/bin"
 
 # ------------------------------------------------------------------------------
-# Set Up MyCmd
+# Set Up MyCmd and MyProject
 #   In a function to take advantage of locals
 _tbh_set_up_mycmd() {
     local dir
@@ -74,6 +74,29 @@ _tbh_set_up_mycmd() {
 }
 
 _tbh_set_up_mycmd
+
+_tbh_set_up_myproject() {
+    local dir
+    local myproject_dir
+    local myproject_mycmd_lib_dir
+
+    for dir ( "${HOME}/Developer/Personal/myproject/snapshot"  "${HOME}/Developer/Personal/myproject/main" "${HOME}/Developer/myproject" ); do
+        if [[ -d "${dir}" ]]; then
+            myproject_dir="${dir}"
+            break
+        fi
+    done
+
+    if [[ -z "${myproject_dir-}" ]]; then
+        echo >&2 "Cannot find MyProject checkout."
+        return
+    fi
+
+    myproject_mycmd_lib_dir="${myproject_dir}/mycmd"
+    typeset -gx MYCMD_SEARCH_PATH="${myproject_mycmd_lib_dir}"
+}
+
+_tbh_set_up_myproject
 
 # This is called last to ensure it is first
 _tbh_prepend_dir_to_path "${HOME}/bin"
