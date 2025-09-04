@@ -165,7 +165,7 @@ _tbh_load_zsh_plugin_if_exists zsh-vi-mode
 # Powerlevel 10k
 #
 # https://github.com/romkatv/powerlevel10k
-function _tbh_load_powerlevel10k() {
+_tbh_load_powerlevel10k() {
     local -r powerlevel_dir="${ZDOTDIR}/themes/powerlevel10k"
     local -r source_file="${powerlevel_dir}/powerlevel10k.zsh-theme"
     local -r config_file="${ZDOTDIR}/.p10k.zsh"
@@ -175,3 +175,14 @@ function _tbh_load_powerlevel10k() {
 }
 
 _tbh_load_powerlevel10k
+
+_tbh_cleanup_environment() {
+    local func
+    for func in ${(k)functions}; do
+        if [[ "${func}" == _tbh_* ]]; then
+            unset -f "${func}"
+        fi
+    done
+}
+
+_tbh_cleanup_environment
