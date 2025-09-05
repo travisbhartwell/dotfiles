@@ -51,7 +51,7 @@ export FINANCIAL_CHARLES_SCHWAB_ROLLOVER_IRA
 readonly FINANCIAL_BASE_STATEMENT_DIR="${HOME}/Google Drive/My Drive/Financial/documents"
 export FINANCIAL_BASE_STATEMENT_DIR
 
-mycmd.defer_at_startup mycmd.init_bin realpath
+mycmd.add_to_init_bin_batch realpath
 function financial._resolve_file() {
     local -r root_dir="${1}"
     local -r account="${2}"

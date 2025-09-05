@@ -15,7 +15,7 @@ mycmd:command_group.register_short_description "financial account data file clea
 readonly _MYCMD_FINANCIAL_DATA_CLEANING_LIB=1
 
 # Common tool required for everything in this module
-mycmd.defer_at_startup mycmd.init_bin datacleanup
+mycmd.add_to_init_bin_batch datacleanup
 
 function data_cleaning.clean_capitalone_checking_csv() {
     local date="$1"

@@ -43,7 +43,7 @@ function import.chase_visa_imports_ledger_postings_file_by_date() {
     import._imports_ledger_postings_file_by_date "${FINANCIAL_CHASE_VISA_ACCOUNT}" "${date}"
 }
 
-mycmd.defer_at_startup mycmd.init_bin financial-importer
+mycmd.add_to_init_bin_batch financial-importer
 function import._import_csv() {
     # TODO: Validate parameters
     local -r format_name="$1"

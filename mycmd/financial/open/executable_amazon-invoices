@@ -24,7 +24,7 @@ function open-amazon-invoice() {
     open "https://www.amazon.com/gp/css/summary/print.html/ref=ppx_yo_dt_b_invoice_o00?ie=UTF8&orderID=${order_id}"
 }
 
-mycmd.defer_at_startup mycmd.init_bin pdftotext
+mycmd.add_to_init_bin_batch pdftotext
 function open-amazon-orders-from-statement() {
     local -r statement_pdf="${1}"
 
