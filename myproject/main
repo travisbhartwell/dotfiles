@@ -52,7 +52,7 @@ myproject.find_and_add_files_to_fileset ALL_COMMANDS "${MYCMD_DIR}" -name "execu
 # --------------------------------------------------------------------------------------------------
 # Main Tasks
 
-mycmd.defer_at_startup mycmd.init_bin chezmoi
+mycmd.add_to_init_bin_batch chezmoi
 
 function format_all() {
     if mycmd.is_mac_os; then

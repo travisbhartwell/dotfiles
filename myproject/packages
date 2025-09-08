@@ -15,7 +15,7 @@ mycmd.trace "- MYCMD_DIR:     ${MYCMD_DIR}"
 mycmd.trace "- TEMPLATE_DIR:  ${TEMPLATE_DIR}"
 
 if mycmd.is_mac_os; then
-    mycmd.defer_at_startup mycmd.init_bin brew
+    mycmd.add_to_init_bin_batch brew
 
     function diff_packages_toml() {
         # shellcheck disable=SC2312
@@ -27,7 +27,7 @@ if mycmd.is_mac_os; then
     myproject.register_task diff-packages-toml diff_packages_toml
     myproject.register_task_description diff-packages-toml "Diff the packages.toml file against the installed Homebrew packages."
 
-    mycmd.defer_at_startup mycmd.init_bin uvx
+    mycmd.add_to_init_bin_batch uvx
 
     function format_packages_toml() {
         mycmd.bin_execute uvx toml-sort --all --in-place --sort-first taps,brews,casks "${DATA_DIR}/packages.toml"
