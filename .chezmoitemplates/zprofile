@@ -69,7 +69,7 @@ _tbh_set_up_mycmd() {
     fi
 
     mycmd_bin="${mycmd_dir}/bin"
-    typeset -rgx MYCMD_SYSTEM_BASE_DIR="${mycmd_dir}/mycmd"
+    typeset -gx MYCMD_SYSTEM_BASE_DIR="${mycmd_dir}/mycmd"
     _tbh_prepend_dir_to_path "${mycmd_bin}"
 }
 
