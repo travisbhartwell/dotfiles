@@ -17,17 +17,17 @@
 
 ;;;###autoload
 (defun tbh/mycmd-project-tasks ()
-  (-let (((_status . output) (tbh/mycmd-call "project" "list-tasks" "--quiet")))
+  (-let (((_status . output) (tbh/mycmd-call "myproject" "project-info" "tasks" "--quiet" "--format=plain")))
     (s-lines output)))
 
 ;;;###autoload
 (defun tbh/mycmd-project-run-quiet (&rest args)
-  (let ((project-run-args (append '("project" "run" "--quiet" "--") args)))
+  (let ((project-run-args (append '("myproject" "run" "--quiet" "--") args)))
     (apply #'tbh/mycmd-call project-run-args)))
 
 ;;;###autoload
 (defun tbh/mycmd-project-run-compilation (task)
-  (let ((cmd-line (s-join " " `("mycmd" "project" "run" ,task))))
+  (let ((cmd-line (s-join " " `("mycmd" "myproject" "run" ,task))))
     (compile cmd-line)))
 
 ;;;###autoload
