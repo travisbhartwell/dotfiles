@@ -79,20 +79,6 @@
         (init-template-file "static/init.example.el"))
     (magit-ediff-compare tbh-last-init-el-template-commit "HEAD" init-template-file init-template-file)))
 
-(use-package! lsp-treemacs-nerd-icons
-  ;; HACK: Load after the `lsp-treemacs' created default themes
-  :init (with-eval-after-load 'lsp-treemacs
-          (require 'lsp-treemacs-nerd-icons)))
-
-(use-package! lsp-treemacs
-  :custom
-  (lsp-treemacs-theme "nerd-icons-ext"))
-
-(use-package! janet-mode
-  :commands janet-mode
-  :mode "\\.janet\\'"
-  :interpreter "janet")
-
 ;; Proofread current file
 (if (featurep :system 'macos)
     (defun tbh/proofread-file ()

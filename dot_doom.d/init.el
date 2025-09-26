@@ -17,7 +17,7 @@
        ophints
        (popup +all +defaults)
        tabs
-       (treemacs +lsp)
+       treemacs
        unicode
        (vc-gutter +pretty)
        vi-tilde-fringe
@@ -36,6 +36,7 @@
        (dired +dirvish +icons)
        electric
        (ibuffer +icons)
+       tramp
        undo
        vc
 
@@ -46,9 +47,10 @@
 
        :tools
        direnv
+       (docker +lsp +tree-sitter)
        (eval +overlay)
        (lookup +dictionary +docsets +offline)
-       (lsp +peek)
+       (lsp +booster +eglot)
        magit
        make
        tmux
@@ -65,14 +67,16 @@
        (go +lsp +tree-sitter)
        graphviz
        (haskell +lsp +tree-sitter)
-       (json +lsp +tree-sitter)
+       (janet +tree-sitter)
        (java +lsp +tree-sitter)
+       (json +lsp +tree-sitter)
        ledger
        (lua +fennel +lsp +tree-sitter)
        (markdown +grip)
        (nix +lsp +tree-sitter)
-       (org +journal +pandoc +roam2)
+       (org +journal +pandoc +roam)
        (python +lsp +pyright +pyenv +poetry +tree-sitter)
+       (ruby +lsp +rails +tree-sitter)
        (rust +lsp +tree-sitter)
        (sh +lsp +tree-sitter)
        (swift +lsp +tree-sitter)
@@ -92,4 +96,4 @@
 ;; This is the commit of the Doom Emacs source that this is based upon
 ;; TODO: Add function to update this automatically
 (setq tbh-last-init-el-template-commit
-      "a39dd36e97076459e6155158d3593dfd0ce78fc5")
+      "63653091642a60d378a4dcf96bcf811c45d35cc7")

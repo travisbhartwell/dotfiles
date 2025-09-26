@@ -3,3 +3,4 @@ deno = "2.2.2"
 node = "23"
 pipx = 'latest'
 python = '3.13'
+ruby = "3.4.6"

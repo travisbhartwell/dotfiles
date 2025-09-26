@@ -92,7 +92,6 @@ casks = [
   "cleanmymac",
   "discord",
   "epic-games",
-  "foxit-pdf-editor",
   "font-commit-mono",
   "font-meslo-for-powerlevel10k",
   "font-monaspace",
@@ -108,7 +107,6 @@ casks = [
   "karabiner-elements",
   "keybase",
   "keyclu",
-  "loupedeck",
   "mysides",
   "obsidian",
   "openmtp",
@@ -133,7 +131,6 @@ args = [
   "with-modern-icon-bokehlicia-captiva",
   "with-native-comp",
   "with-native-full-aot",
-  "with-poll",
   "with-tree-sitter"
 ]
 name = "daviderestivo/emacs-head/emacs-head@30"
@@ -190,8 +187,8 @@ debs = [
   "jq",
   "ledger",
   "ripgrep",
-  "tree-sitter",
   "tmux",
+  "tree-sitter",
   "visidata",
   "zsh"
 ]
