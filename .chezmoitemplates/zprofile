@@ -115,6 +115,10 @@ typeset -rgxi CLICOLOR=1
 # Common less options
 typeset -rgx LESS="-iFXR"
 
+# Set editor and visual
+typeset -gx EDITOR="emacsclient -c -a ''"
+typeset -gx VISUAL="${EDITOR}"
+
 # Set and create a common cache directory for Zsh related cache files
 {{ if eq .chezmoi.os "darwin" -}}
 typeset -rgx _TBH_ZSH_CACHE_DIR="${HOME}/Library/Caches/zsh"
