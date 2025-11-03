@@ -15,11 +15,14 @@
 
 (use-package! ef-themes
   :init
+  (ef-themes-take-over-modus-themes-mode 1)
+  :config
   (setq
    ef-themes-mixed-fonts t
    ef-themes-variable-pitch-ui t)
+
   (mapc #'disable-theme custom-enabled-themes)
-  (ef-themes-select 'ef-dark))
+  (modus-themes-load-theme 'ef-dark))
 
 (setq doom-theme 'ef-dark)
 (set-frame-parameter nil 'alpha-background 85)
