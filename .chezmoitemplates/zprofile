@@ -64,8 +64,16 @@ _tbh_set_up_mycmd() {
     done
 
     if [[ -z "${mycmd_dir-}" ]]; then
-        echo >&2 "Cannot find MyCmd checkout."
-        return
+        local mycmd_exe
+        if ! mycmd_exe="$(command -v mycmd)"; then
+            echo >&2 "Cannot find MyCmd checkout."
+            return
+        fi
+
+        # I'm using MyCmd from Mise
+        if [[ "${mycmd_exe}" = */mise/shims/mycmd ]]; then
+            return
+        fi
     fi
 
     mycmd_bin="${mycmd_dir}/bin"
@@ -87,6 +95,11 @@ _tbh_set_up_myproject() {
     done
 
     if [[ -z "${myproject_dir-}" ]]; then
+        # I'm using MyProject from Mise
+        if mycmd myproject &> /dev/null; then
+            return
+        fi
+
         echo >&2 "Cannot find MyProject checkout."
         return
     fi
