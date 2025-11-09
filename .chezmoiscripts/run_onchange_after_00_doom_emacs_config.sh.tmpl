@@ -27,7 +27,8 @@ function find_doom() {
 }
 
 if ! doom_bin=$(find_doom); then
-    exit 1
+    echo "Doom not found, skipping configuration"
+    exit 0
 fi
 
 "${doom_bin}" sync
